@@ -77,9 +77,9 @@ $result = $xoopsDB->query('SELECT sid, title FROM ' . $xoopsDB->prefix('myconfer
 echo " <table class='outer' border='0' cellspacing='5' cellpadding='0' align='center' width='100%'> <tr>\n";
 $count = 1;
 while (list($sid, $title) = $xoopsDB->fetchRow($result)) {
-    echo "<td class=\"itemHead\" valign=\"top\" ><a href=\"" . XOOPS_URL . "/modules/myconference/index.php?sid=$sid\"><b>$title</b></a></td>";
+    echo '<td class="itemHead" valign="top" ><a href="' . XOOPS_URL . "/modules/myconference/index.php?sid=$sid\"><b>$title</b></a></td>";
 }
-echo "<td class=\"itemHead\" valign=\"top\" ><a href=\"" . XOOPS_URL . "/modules/myconference/program.php\"><b>" . _MD_MYCONFERENCE_PROGRAM . '</b></a></td>';
+echo '<td class="itemHead" valign="top" ><a href="' . XOOPS_URL . '/modules/myconference/program.php"><b>' . _MD_MYCONFERENCE_PROGRAM . '</b></a></td>';
 echo "</tr></table>\n";
 
 $header = '';
