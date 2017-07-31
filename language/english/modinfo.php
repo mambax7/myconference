@@ -58,6 +58,6 @@ define('_MI_MYCONFERENCE_PICS_UPLOAD_DIR_DESC', 'This is where your pictures wil
 
 //Help
 define('_MI_MYCONFERENCE_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_MYCONFERENCE_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_MYCONFERENCE_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_MYCONFERENCE_BACK_2_ADMIN', 'Back to Administration of ');
 define('_MI_MYCONFERENCE_HELP_OVERVIEW', 'Overview');
