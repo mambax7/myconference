@@ -18,6 +18,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
+
 include __DIR__ . '/admin_header.php';
 include __DIR__ . '/conference.php';
 include_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
@@ -30,7 +32,7 @@ $myts = MyTextSanitizer::getInstance();
 //    $fct = 'nada';
 //}
 
-$fct = XoopsRequest::getString('fct', 'nada', 'POST');
+$fct = Request::getString('fct', 'nada', 'POST');
 
 //if (isset($_POST)) {
 //    foreach ($_POST as $k => $v) {
@@ -59,23 +61,23 @@ $eh = new ErrorHandler;
 switch ($fct) {
     case 'updspeaker':
         $eh       = new ErrorHandler;
-        $name     = XoopsRequest::getString('speakerName', '', 'POST');//$_POST['speakerName'];
-        $email    = XoopsRequest::getEmail('speakerEmail', '', 'POST');//$_POST['speakerEmail'];
-        $descrip  = XoopsRequest::getText('speakerMiniBio', '', 'POST');//$_POST['speakerMiniBio'];
-        $company  = XoopsRequest::getString('speakerCompanyName', '', 'POST');//$_POST['speakerCompanyName'];
-        $location = XoopsRequest::getString('speakerCompanyLocation', '', 'POST');//$_POST['speakerCompanyLocation'];
-        $url      = XoopsRequest::getUrl('speakerSite', '', 'POST');//$_POST['speakerSite'];
-        $photo    = XoopsRequest::getArray('xoops_upload_file', array(), 'POST')[0];//$_POST['xoops_upload_file'][0];
+        $name     = Request::getString('speakerName', '', 'POST');//$_POST['speakerName'];
+        $email    = Request::getEmail('speakerEmail', '', 'POST');//$_POST['speakerEmail'];
+        $descrip  = Request::getText('speakerMiniBio', '', 'POST');//$_POST['speakerMiniBio'];
+        $company  = Request::getString('speakerCompanyName', '', 'POST');//$_POST['speakerCompanyName'];
+        $location = Request::getString('speakerCompanyLocation', '', 'POST');//$_POST['speakerCompanyLocation'];
+        $url      = Request::getUrl('speakerSite', '', 'POST');//$_POST['speakerSite'];
+        $photo    = Request::getArray('xoops_upload_file', [], 'POST')[0];//$_POST['xoops_upload_file'][0];
         if (isset($_FILES['attachedfile'])) {
             $photo = getFile($photo);
         }
-        if (isset(XoopsRequest::getArray('xoops_upload_file', array(), 'POST')[1])//$_POST['xoops_upload_file'][1])
-            && !empty(XoopsRequest::getString('photo2', null, 'POST')) //$_POST['photo2'])
+        if (isset(Request::getArray('xoops_upload_file', [], 'POST')[1])//$_POST['xoops_upload_file'][1])
+            && !empty(Request::getString('photo2', null, 'POST')) //$_POST['photo2'])
         ) {
-            $photo2 = XoopsRequest::getString('xoops_upload_file', null, 'POST')[1];//$_POST['xoops_upload_file'][1];
+            $photo2 = Request::getString('xoops_upload_file', null, 'POST')[1];//$_POST['xoops_upload_file'][1];
             $photo2 = getFile($photo2);
         }
-        $speakerid = XoopsRequest::getInt('speakerid', 0, 'POST');//$_POST['speakerid'];
+        $speakerid = Request::getInt('speakerid', 0, 'POST');//$_POST['speakerid'];
         $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('myconference_speakers') . " SET name='$name', email='$email', descrip='$descrip', location='$location', company='$company', photo='$photo', url='$url' WHERE speakerid=$speakerid");// or $eh::show('0013');
         if ($result) {
             redirect_header('speakers.php', 2, _AM_MYCONFERENCE_DBUPDATED);
@@ -88,9 +90,9 @@ switch ($fct) {
     case 'editspeaker':
         xoops_cp_header();
 
-        $action = XoopsRequest::getString('action', 0, 'POST');//$_POST['action'];
+        $action = Request::getString('action', 0, 'POST');//$_POST['action'];
         if ($action === 'upd') {
-            $speakerid = XoopsRequest::getInt('speakerid', 0, 'POST');//trim($_POST['speakerid']) or $eh::show('1001');
+            $speakerid = Request::getInt('speakerid', 0, 'POST');//trim($_POST['speakerid']) or $eh::show('1001');
             $result = $xoopsDB->query('SELECT name,email,company,location,url,photo,descrip FROM ' . $xoopsDB->prefix('myconference_speakers') . " WHERE speakerid=$speakerid");// or $eh::show('0013');
             list($name_v, $email_v, $company_v, $location_v, $url_v, $photo_v, $minibio_v) = $xoopsDB->fetchRow($result);
 
@@ -150,24 +152,24 @@ switch ($fct) {
 
             xoops_cp_footer();
         } elseif ($action === 'del') {
-            $speakerid = XoopsRequest::getInt('speakerid', 0, 'POST');//trim($_POST['speakerid']) or $eh::show('1001');
-            xoops_confirm(array('fct' => 'delspeakerok', 'speakerid' => $speakerid), 'speakers.php', _AM_MYCONFERENCE_DEL_SPEAKER);
+            $speakerid = Request::getInt('speakerid', 0, 'POST');//trim($_POST['speakerid']) or $eh::show('1001');
+            xoops_confirm(['fct' => 'delspeakerok', 'speakerid' => $speakerid], 'speakers.php', _AM_MYCONFERENCE_DEL_SPEAKER);
             xoops_cp_footer();
         }
         break;
 
     case 'delspeakerok':
-        $speakerid = XoopsRequest::getInt('speakerid', 0, 'POST');//trim($_POST['speakerid']) or $eh::show('1001');
+        $speakerid = Request::getInt('speakerid', 0, 'POST');//trim($_POST['speakerid']) or $eh::show('1001');
         $result = $xoopsDB->query('DELETE FROM ' . $xoopsDB->prefix('myconference_speakers') . " WHERE speakerid=$speakerid");// or $eh::show('0013');
         redirect_header('speakers.php', 2, _AM_MYCONFERENCE_DBUPDATED);
         break;
     case 'addspeaker':
-        $name     = $myts->stripslashesGPC(trim(XoopsRequest::getString('speakerName', '', 'POST')));//$_POST['speakerName']));
-        $email    = $myts->stripslashesGPC(trim(XoopsRequest::getEmail('speakerEmail', '', 'POST')));//$_POST['speakerEmail']));
-        $descrip  = $myts->stripslashesGPC(trim(XoopsRequest::getText('speakerMiniBio', '', 'POST')));//$_POST['speakerMiniBio']));
-        $company  = $myts->stripslashesGPC(trim(XoopsRequest::getString('speakerCompanyName', '', 'POST')));//$_POST['speakerCompanyName']));
-        $location = $myts->stripslashesGPC(trim(XoopsRequest::getString('speakerCompanyLocation', '', 'POST')));//$_POST['speakerCompanyLocation']));
-        $url      = $myts->stripslashesGPC(trim(XoopsRequest::getUrl('speakerSite', '', 'POST')));//$_POST['speakerSite']));
+        $name     = $myts->stripslashesGPC(trim(Request::getString('speakerName', '', 'POST')));//$_POST['speakerName']));
+        $email    = $myts->stripslashesGPC(trim(Request::getEmail('speakerEmail', '', 'POST')));//$_POST['speakerEmail']));
+        $descrip  = $myts->stripslashesGPC(trim(Request::getText('speakerMiniBio', '', 'POST')));//$_POST['speakerMiniBio']));
+        $company  = $myts->stripslashesGPC(trim(Request::getString('speakerCompanyName', '', 'POST')));//$_POST['speakerCompanyName']));
+        $location = $myts->stripslashesGPC(trim(Request::getString('speakerCompanyLocation', '', 'POST')));//$_POST['speakerCompanyLocation']));
+        $url      = $myts->stripslashesGPC(trim(Request::getUrl('speakerSite', '', 'POST')));//$_POST['speakerSite']));
         //$file = $myts->stripslashesGPC(trim($_POST['xoops_upload_file'][0]));
         //echo "file ($file)";
         /*        if (!empty($_FILES['speakersPhoto']['name'])) {
@@ -180,10 +182,10 @@ switch ($fct) {
         //            $photo = getFile($photo);
         //        }
 
-        if (isset(XoopsRequest::getString('xoops_upload_file', null, 'POST')[0]) //$_POST['xoops_upload_file'][0])
-            && !empty(XoopsRequest::getString('photo', null, 'POST')) //$_POST['photo'])
+        if (isset(Request::getString('xoops_upload_file', null, 'POST')[0]) //$_POST['xoops_upload_file'][0])
+            && !empty(Request::getString('photo', null, 'POST')) //$_POST['photo'])
         ) {
-            $photo = XoopsRequest::getString('xoops_upload_file', null, 'POST')[0]; //$_POST['xoops_upload_file'][0];
+            $photo = Request::getString('xoops_upload_file', null, 'POST')[0]; //$_POST['xoops_upload_file'][0];
             $photo = getFile($photo);
         }
 

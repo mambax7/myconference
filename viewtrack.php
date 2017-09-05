@@ -18,6 +18,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
+
 include __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'myconference_track.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
@@ -30,7 +32,7 @@ $myts = MyTextSanitizer::getInstance();
 //    $tid = $_POST['tid'];
 //}
 
-$tid     = XoopsRequest::getInt('tid', XoopsRequest::getInt('tid', 0, 'GET'), 'POST');
+$tid     = Request::getInt('tid', Request::getInt('tid', 0, 'GET'), 'POST');
 
 //if (0 === $tid) {
 //    $eh::show('0013');
@@ -56,11 +58,11 @@ $result = $xoopsDB->query('SELECT sid, title FROM ' . $xoopsDB->prefix('myconfer
 
 $count = 1;
 while ($section = $xoopsDB->fetchArray($result)) {
-    $xoopsTpl->append('sections', array('id' => $section['sid'], 'title' => $section['title'], 'count' => $count));
+    $xoopsTpl->append('sections', ['id' => $section['sid'], 'title' => $section['title'], 'count' => $count]);
     ++$count;
 }
 $xoopsTpl->assign('cid', $cid);
-$xoopsTpl->append('sections', array('id' => 0, 'title' => _MD_MYCONFERENCE_PROGRAM, 'count' => $count));
+$xoopsTpl->append('sections', ['id' => 0, 'title' => _MD_MYCONFERENCE_PROGRAM, 'count' => $count]);
 ++$count;
 
 include XOOPS_ROOT_PATH . '/footer.php';

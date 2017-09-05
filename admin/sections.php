@@ -18,6 +18,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
+
 include __DIR__ . '/admin_header.php';
 include __DIR__ . '/conference.php';
 include_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
@@ -33,7 +35,7 @@ $eh = new ErrorHandler;
 //    $fct = trim($_GET['fct']);
 //}
 
-$fct = XoopsRequest::getString('fct', XoopsRequest::getString('fct', '', 'GET'), 'POST');
+$fct = Request::getString('fct', Request::getString('fct', '', 'GET'), 'POST');
 
 //if (isset($_POST)) {
 //    foreach ($_POST as $k => $v) {
@@ -48,10 +50,10 @@ $fct = XoopsRequest::getString('fct', XoopsRequest::getString('fct', '', 'GET'),
 switch ($fct) {
     case 'updsection':
         $eh      = new ErrorHandler;
-        $sid     = XoopsRequest::getInt('sid', '', 'POST');//$_POST['sid'];
-        $title   = XoopsRequest::getString('title', '', 'POST');//$_POST['title'];
-        $summary = XoopsRequest::getText('summary', '', 'POST');//$_POST['summary'];
-        $cid     = XoopsRequest::getInt('cid', 0, 'POST');//$_POST['cid'];
+        $sid     = Request::getInt('sid', '', 'POST');//$_POST['sid'];
+        $title   = Request::getString('title', '', 'POST');//$_POST['title'];
+        $summary = Request::getText('summary', '', 'POST');//$_POST['summary'];
+        $cid     = Request::getInt('cid', 0, 'POST');//$_POST['cid'];
         $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('myconference_sections') . " SET title='$title', summary='$summary', cid='$cid' WHERE sid=$sid");// or $eh::show('0013');
         if ($result) {
             redirect_header('sections.php', 2, _AM_MYCONFERENCE_DBUPDATED);
@@ -60,8 +62,8 @@ switch ($fct) {
     case 'editsection':
         xoops_cp_header();
 
-        $action = XoopsRequest::getString('action', 0, 'POST');//$_POST['action'];
-        $sid    = XoopsRequest::getInt('sid', 0, 'POST');//$_POST['sid'];
+        $action = Request::getString('action', 0, 'POST');//$_POST['action'];
+        $sid    = Request::getInt('sid', 0, 'POST');//$_POST['sid'];
         if ($action === 'upd') {
 //            $sid = trim($_POST['sid']) or $eh::show('1001');
             $result = $xoopsDB->query('SELECT title, cid, summary FROM ' . $xoopsDB->prefix('myconference_sections') . " WHERE sid=$sid");// or $eh::show('0013');
@@ -95,22 +97,22 @@ switch ($fct) {
             xoops_cp_footer();
         } elseif ($action === 'del') {
 //            $sid = trim($_POST['sid']) or $eh::show('1001');
-            xoops_confirm(array('fct' => 'delsectionok', 'sid' => $sid), 'sections.php', _AM_MYCONFERENCE_DELSECTION);
+            xoops_confirm(['fct' => 'delsectionok', 'sid' => $sid], 'sections.php', _AM_MYCONFERENCE_DELSECTION);
             xoops_cp_footer();
         }
         break;
 
     case 'delsectionok':
-        $sid     = XoopsRequest::getInt('sid', '', 'POST');//$sid = trim($_POST['sid']) or $eh::show('1001');
+        $sid     = Request::getInt('sid', '', 'POST');//$sid = trim($_POST['sid']) or $eh::show('1001');
         $result = $xoopsDB->query('DELETE FROM ' . $xoopsDB->prefix('myconference_sections') . " WHERE sid=$sid");// or $eh::show('0013');
         redirect_header('sections.php', 2, _AM_MYCONFERENCE_DBUPDATED);
         break;
 
     case 'addsection':
 
-        $cid     = XoopsRequest::getInt('cid', 0, 'POST');//$cid     = (int)$_POST['cid'];
-        $title   = $myts->stripslashesGPC(trim(XoopsRequest::getString('title', '', 'POST'))); //$_POST['title']));
-        $summary = $myts->stripslashesGPC(trim(XoopsRequest::getText('summary', '', 'POST')));//$_POST['summary']));
+        $cid     = Request::getInt('cid', 0, 'POST');//$cid     = (int)$_POST['cid'];
+        $title   = $myts->stripslashesGPC(trim(Request::getString('title', '', 'POST'))); //$_POST['title']));
+        $summary = $myts->stripslashesGPC(trim(Request::getText('summary', '', 'POST')));//$_POST['summary']));
 
         $eh = new ErrorHandler;
 

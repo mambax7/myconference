@@ -1,15 +1,13 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: Mamba
- * Date: 2014-11-19
- * Time: 3:05
+ * Class MyconferenceUtility
  */
 
 $moduleDirName = basename(dirname(__DIR__));
+require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/common.php");
 //require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
-require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
+//require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/config.php");
 //if (!class_exists('PedigreeAnimal')) {
 //    require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/animal.php");
 //}
@@ -25,9 +23,9 @@ $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 */
 
 /**
- * Class PedigreeUtilities
+ * Class MyconferenceUtility
  */
-class MyconferenceUtilities
+class MyconferenceUtility
 {
 
     /**
@@ -58,14 +56,14 @@ class MyconferenceUtilities
                     break;
                 }
             } else {
-                if ((int)$v > 0) { // handles things like x.x.x.0_RC2
+                if ((int)$v > 0) { // handles versions like x.x.x.0_RC2
                     $success = false;
                     break;
                 }
             }
         }
 
-        if (!$success) {
+        if (false === $success) {
             $module->setErrors(sprintf(_AM_MYCONFERENCE_ERROR_BAD_XOOPS, $requiredVer, $currentVer));
         }
 
@@ -85,7 +83,7 @@ class MyconferenceUtilities
         xoops_loadLanguage('admin', $module->dirname());
         // check for minimum PHP version
         $success = true;
-        $verNum  = phpversion();
+        $verNum  = PHP_VERSION;
         $reqVer  =& $module->getInfo('min_php');
         if (false !== $reqVer && '' !== $reqVer) {
             if (version_compare($verNum, $reqVer, '<')) {
@@ -144,7 +142,7 @@ class MyconferenceUtilities
         $max_imgsize       = $GLOBALS['xoopsModuleConfig']['maxfilesize']; //1024000;
         $max_imgwidth      = $GLOBALS['xoopsModuleConfig']['maximgwidth']; //1500;
         $max_imgheight     = $GLOBALS['xoopsModuleConfig']['maximgheight']; //1000;
-        $allowed_mimetypes = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png');
+        $allowed_mimetypes = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'];
         //    $img_dir = XOOPS_ROOT_PATH . "/modules/" . $GLOBALS['xoopsModule']->dirname() . "/images" ;
         $img_dir = $GLOBALS['xoopsModuleConfig']['uploaddir'] . '/images';
         include_once $GLOBALS['xoops']->path('class/uploader.php');
@@ -201,7 +199,7 @@ class MyconferenceUtilities
 
         // load the image
         require_once $GLOBALS['xoops']->path('modules/' . $GLOBALS['xoopsModule']->dirname() . '/library/Zebra_Image.php');
-        $thumbnail_widths = array(150, 400);
+        $thumbnail_widths = [150, 400];
 
         // indicate a target image
         // note that there's no extra property to set in order to specify the target
@@ -370,7 +368,7 @@ class MyconferenceUtilities
 //        $xLocale        = new XoopsLocal;
 //        $alphabet       = $xLocale->getAlphabet();
         $alphabet       = pedigreeGetAlphabet();
-        $alphabet_array = array();
+        $alphabet_array = [];
         foreach ($alphabet as $letter) {
             /*
                         if (isset($countsByLetters[$letter])) {
@@ -393,7 +391,7 @@ class MyconferenceUtilities
                             //        foreach ($alphabet as $letter) {
                             foreach (range('A', 'Z') as $letter) {
             */
-            $letter_array = array();
+            $letter_array = [];
             if (isset($countsByLetters[$letter])) {
                 $letter_array['letter'] = $letter;
                 $letter_array['count']  = $countsByLetters[$letter];
@@ -506,7 +504,7 @@ class MyconferenceUtilities
 
         $currentURL = $http . $httpHost . $phpSelf . $queryString;
 
-        $urls                = array();
+        $urls                = [];
         $urls['http']        = $http;
         $urls['httphost']    = $httpHost;
         $urls['phpself']     = $phpSelf;
@@ -531,7 +529,7 @@ class MyconferenceUtilities
      *
      * @return string
      */
-    public static function formatErrors($errors = array())
+    public static function formatErrors($errors = [])
     {
         $ret = '';
         foreach ($errors as $key => $value) {
@@ -540,5 +538,4 @@ class MyconferenceUtilities
 
         return $ret;
     }
-
 }

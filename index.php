@@ -18,6 +18,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
+
 include __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'myconference_index.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
@@ -41,7 +43,7 @@ $myts = MyTextSanitizer::getInstance();
 //global $xoopsDB;
 
 //$xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
-$cid = XoopsRequest::getInt('cid', XoopsRequest::getInt('cid', 0, 'GET'), 'POST');
+$cid = Request::getInt('cid', Request::getInt('cid', 0, 'GET'), 'POST');
 
 if (0 === $cid) {
     $result = $xoopsDB->queryF('SELECT cid FROM ' . $xoopsDB->prefix('myconference_main') . ' WHERE isdefault = 1');// or $eh::show('1001');
@@ -59,7 +61,6 @@ if (0 === $cid) {
 //    exit();
 //}
 if (isset($cid) && $cid  > 0) {
-
     $result = $xoopsDB->query('SELECT title, subtitle, subsubtitle, summary FROM ' . $xoopsDB->prefix('myconference_main') . " WHERE cid=$cid");// or $eh::show('0013');
     list($title, $subtitle, $subsubtitle, $summary) = $xoopsDB->fetchRow($result);
 
@@ -71,11 +72,11 @@ if (isset($cid) && $cid  > 0) {
 
     $count = 1;
     while ($section = $xoopsDB->fetchArray($result)) {
-        $xoopsTpl->append('sections', array('id' => $section['sid'], 'title' => $section['title'], 'count' => $count));
+        $xoopsTpl->append('sections', ['id' => $section['sid'], 'title' => $section['title'], 'count' => $count]);
         ++$count;
     }
     $xoopsTpl->assign('cid', $cid);
-    $xoopsTpl->append('sections', array('id' => 0, 'title' => _MD_MYCONFERENCE_PROGRAM, 'count' => $count));
+    $xoopsTpl->append('sections', ['id' => 0, 'title' => _MD_MYCONFERENCE_PROGRAM, 'count' => $count]);
     ++$count;
 
     //if (isset($_GET['sid'])) {
@@ -84,17 +85,16 @@ if (isset($cid) && $cid  > 0) {
     //    $sid = (int)$_POST['sid'];
     //}
 
-    $sid = XoopsRequest::getInt('sid', XoopsRequest::getInt('sid', 0, 'GET'), 'POST');
+    $sid = Request::getInt('sid', Request::getInt('sid', 0, 'GET'), 'POST');
 
     if ($sid > 0) {
         $result = $xoopsDB->query('SELECT summary FROM ' . $xoopsDB->prefix('myconference_sections') . " WHERE sid=$sid");// or $eh::show('0013');
         list($summary) = $xoopsDB->fetchRow($result);
     }
 
-    $xoopsTpl->append('sections', array('data' => $myts->displayTarea($summary)));
+    $xoopsTpl->append('sections', ['data' => $myts->displayTarea($summary)]);
 } else {
     redirect_header(XOOPS_URL . '/', 3, _MD_MYCONFERENCE_NOCONGRESS);
 }
 //include XOOPS_ROOT_PATH.'/footer.php';
 include $GLOBALS['xoops']->path('footer.php');
-

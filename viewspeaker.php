@@ -18,6 +18,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
+
 include __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'myconference_speaker.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
@@ -30,7 +32,7 @@ $myts = MyTextSanitizer::getInstance();
 //    $speakerid = (int)$_POST['speakerid'];
 //}
 
-$speakerid = XoopsRequest::getInt('speakerid', XoopsRequest::getInt('speakerid', 0, 'GET'), 'POST');
+$speakerid = Request::getInt('speakerid', Request::getInt('speakerid', 0, 'GET'), 'POST');
 
 //if (0 === $speakerid) {
 //    $eh::show('0013');
@@ -44,7 +46,7 @@ $xoopsTpl->assign('lang_picture', _MD_MYCONFERENCE_PICTURE);
 $xoopsTpl->assign('lang_company', _MD_MYCONFERENCE_COMPANY);
 $xoopsTpl->assign('lang_location', _MD_MYCONFERENCE_LOCATION);
 $xoopsTpl->assign('lang_minibio', _MD_MYCONFERENCE_MINI_BIO);
-$labels = array(_MD_MYCONFERENCE_NAME, _MD_MYCONFERENCE_EMAIL, _MD_MYCONFERENCE_URL, _MD_MYCONFERENCE_PICTURE, _MD_MYCONFERENCE_COMPANY, _MD_MYCONFERENCE_LOCATION, _MD_MYCONFERENCE_MINI_BIO);
+$labels = [_MD_MYCONFERENCE_NAME, _MD_MYCONFERENCE_EMAIL, _MD_MYCONFERENCE_URL, _MD_MYCONFERENCE_PICTURE, _MD_MYCONFERENCE_COMPANY, _MD_MYCONFERENCE_LOCATION, _MD_MYCONFERENCE_MINI_BIO];
 foreach ($labels as $v) {
     $width = (strlen($v) > $width) ? strlen($v) : $width;
 }
@@ -62,7 +64,7 @@ $xoopsTpl->assign('slocation', $slocation);
 $xoopsTpl->assign('sminibio', $myts->displayTarea($sminibio));
 
 
-$cid     = XoopsRequest::getInt('cid', XoopsRequest::getInt('cid', 0, 'GET'), 'POST');
+$cid     = Request::getInt('cid', Request::getInt('cid', 0, 'GET'), 'POST');
 if (0 === $cid) {
     $result = $xoopsDB->query('SELECT cid FROM ' . $xoopsDB->prefix('myconference_main') . ' WHERE isdefault=1');// or $eh::show('1001');
     list($cid) = $xoopsDB->fetchRow($result);
@@ -78,11 +80,11 @@ $result = $xoopsDB->query('SELECT sid, title FROM ' . $xoopsDB->prefix('myconfer
 
 $count = 1;
 while ($section = $xoopsDB->fetchArray($result)) {
-    $xoopsTpl->append('sections', array('id' => $section['sid'], 'title' => $section['title'], 'count' => $count));
+    $xoopsTpl->append('sections', ['id' => $section['sid'], 'title' => $section['title'], 'count' => $count]);
     ++$count;
 }
 $xoopsTpl->assign('cid', $cid);
-$xoopsTpl->append('sections', array('id' => 0, 'title' => _MD_MYCONFERENCE_PROGRAM, 'count' => $count));
+$xoopsTpl->append('sections', ['id' => 0, 'title' => _MD_MYCONFERENCE_PROGRAM, 'count' => $count]);
 ++$count;
 
 include XOOPS_ROOT_PATH . '/footer.php';

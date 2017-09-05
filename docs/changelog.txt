@@ -1,5 +1,34 @@
-2.00 Beta 1  2016-07-20
----------------------------------------
+<h5>2.00 Beta 2  [NOT RELEASED]</h5>
+<hr>
+- XOOPS 2.5.9, PHP 7 (mamba)
+- Converted to XOOPS 2.5.8 Admin GUI (mamba)
+- removed @version (mamba)
+- PSR-2 code cosmetics (mamba)
+- addNavigation(basename(__FILE__))  (mamba)
+- dirname(__FILE__) to __DIR__ (mamba)
+- replaced < br /> with < br > (mamba)
+- Unnecessary double quotes (mamba)
+- reference mismatch (mamba)
+- Hardening to type safe (mamba)
+- update Help, .html to .tpl (mamba)
+- changed _handler to Handler (mamba)
+- removed '/' from void HTML elements (&lt;br&gt;, &lt;img&gt;, etc) (mamba)
+- HTML 5: removed 'selected' and 'checked' (mamba)
+- updated file headers for consistency (mamba)
+- renamed several $indexAdmin with $adminObject for consistency (mamba)
+- Updates for PayPal changes (zyspec)
+- added Contributing.md (mamba)
+- moved functions to Utility class (mamba)
+- include_once to require_once (mamba)
+- php-cs-fixer updates (mamba)
+- started conversion to XMF (mamba)
+    &nbsp;&nbsp;- updated addInfoBoxLine entries (mamba)
+    &nbsp;&nbsp;- displayNavigation(basename(__FILE__))  (mamba)
+    &nbsp;&nbsp;- changed to ->displayButton('left') (mamba)
+
+
+<h5>2.00 Beta 1  [2016-07-20]</h5>
+<hr>
 - Converted to XOOPS 2.5.8 Admin GUI (mamba)
 - changed date selecting mechanism in main.php to XoopsFormTextDateSelect (mamba)
 - XOOPS 2.5.8 & PHP 7 updates (mamba)
@@ -9,10 +38,11 @@
 - updated Help (mamba)
 - created a Tutorial (mamba)
 - added auto-create of upload folders during install (mamba)
-- added Utilities class (mamba)
+- added Utility class (mamba)
 - removed ErrorHandler, will be replaced later (mamba)
 - still more cleanup needed, especially with pictures....
 
-1.0
----------------------------------------
+
+<h5>1.0</h5>
+<hr>
 - Original release by  Daniel Coletti

@@ -20,53 +20,58 @@
 
 $moduleDirName = basename(dirname(__DIR__));
 
-$moduleHandler = xoops_getHandler('module');
-$module        = $moduleHandler->getByDirname($moduleDirName);
-$pathIcon32    = '../../' . $module->getInfo('sysicons32');
-$pathModIcon32 = './' . $module->getInfo('modicons32');
-xoops_loadLanguage('modinfo', $module->dirname());
+if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
+} else {
+    $moduleHelper = Xmf\Module\Helper::getHelper('system');
+}
 
-$xoopsModuleAdminPath = XOOPS_ROOT_PATH . '/' . $module->getInfo('dirmoduleadmin');
-include_once $xoopsModuleAdminPath . '/language/english/main.php';
 
-$adminmenu[] = array(
+$pathIcon32    = \Xmf\Module\Admin::menuIconPath('');
+//$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
+
+// Load language files
+$moduleHelper->loadLanguage('admin');
+$moduleHelper->loadLanguage('modinfo');
+//$moduleHelper->loadLanguage('main');
+
+$adminmenu[] = [
     'title' => _AM_MODULEADMIN_HOME,
     'link'  => 'admin/index.php',
     'icon'  => $pathIcon32 . '/home.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_MYCONFERENCE_MAIN,
     'link'  => 'admin/main.php',
     'icon'  => $pathIcon32 . '/manage.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_MYCONFERENCE_SPEAKERS,
     'link'  => 'admin/speakers.php',
     'icon'  => $pathIcon32 . '/users.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_MYCONFERENCE_SPEECHES,
     'link'  => 'admin/speeches.php',
     'icon'  => $pathIcon32 . '/face-smile.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_MYCONFERENCE_TRACKS,
     'link'  => 'admin/tracks.php',
     'icon'  => $pathIcon32 . '/event.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _MI_MYCONFERENCE_SECTIONS,
     'link'  => 'admin/sections.php',
     'icon'  => $pathIcon32 . '/category.png'
-);
+];
 
-$adminmenu[] = array(
+$adminmenu[] = [
     'title' => _AM_MODULEADMIN_ABOUT,
     'link'  => 'admin/about.php',
     'icon'  => $pathIcon32 . '/about.png'
-);
+];

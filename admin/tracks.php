@@ -18,6 +18,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
+
 include __DIR__ . '/admin_header.php';
 include __DIR__ . '/conference.php';
 include_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
@@ -33,7 +35,7 @@ $eh = new ErrorHandler;
 //    $fct = trim($_GET['fct']);
 //}
 
-$fct = XoopsRequest::getString('fct', XoopsRequest::getString('fct', '', 'GET'), 'POST');
+$fct = Request::getString('fct', Request::getString('fct', '', 'GET'), 'POST');
 
 //if (isset($_POST)) {
 //    foreach ($_POST as $k => $v) {
@@ -47,10 +49,10 @@ $fct = XoopsRequest::getString('fct', XoopsRequest::getString('fct', '', 'GET'),
 switch ($fct) {
     case 'updtrack':
         $eh      = new ErrorHandler;
-        $tid     = XoopsRequest::getInt('tid', 0, 'POST');//$_POST['tid'];
-        $cid     = XoopsRequest::getInt('cid', 0, 'POST');//$_POST['cid'];
-        $title   = XoopsRequest::getString('title', '', 'POST');//$_POST['title'];
-        $summary = XoopsRequest::getText('summary', '', 'POST');//$_POST['summary'];
+        $tid     = Request::getInt('tid', 0, 'POST');//$_POST['tid'];
+        $cid     = Request::getInt('cid', 0, 'POST');//$_POST['cid'];
+        $title   = Request::getString('title', '', 'POST');//$_POST['title'];
+        $summary = Request::getText('summary', '', 'POST');//$_POST['summary'];
         $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('myconference_tracks') . " SET title='$title', summary='$summary', cid='$cid' WHERE tid=$tid");// or $eh::show('0013');
         if ($result) {
             redirect_header('tracks.php', 2, _AM_MYCONFERENCE_DBUPDATED);
@@ -59,11 +61,11 @@ switch ($fct) {
     case 'edittrack':
         xoops_cp_header();
 
-        $action = $action = XoopsRequest::getString('action', 0, 'POST');//$_POST['action'];
-        $tid    = $tid     = XoopsRequest::getInt('tid', 0, 'POST');//$_POST['tid'];
-        $cid    = $cid     = XoopsRequest::getInt('cid', 0, 'POST');//$_POST['cid'];
+        $action = $action = Request::getString('action', 0, 'POST');//$_POST['action'];
+        $tid    = $tid     = Request::getInt('tid', 0, 'POST');//$_POST['tid'];
+        $cid    = $cid     = Request::getInt('cid', 0, 'POST');//$_POST['cid'];
         if ($action === 'upd') {
-            $tid = XoopsRequest::getInt('tid', 0, 'POST');//trim($_POST['tid']) or $eh::show('1001');
+            $tid = Request::getInt('tid', 0, 'POST');//trim($_POST['tid']) or $eh::show('1001');
             $result = $xoopsDB->query('SELECT cid,title,summary FROM ' . $xoopsDB->prefix('myconference_tracks') . " WHERE tid=$tid");// or $eh::show('0013');
             list($cid_v, $title_v, $summary_v) = $xoopsDB->fetchRow($result);
 
@@ -94,22 +96,22 @@ switch ($fct) {
 
             xoops_cp_footer();
         } elseif ($action === 'del') {
-            $tid = XoopsRequest::getInt('tid', 0, 'POST');//trim($_POST['tid']) or $eh::show('1001');
-            xoops_confirm(array('fct' => 'deltrackok', 'tid' => $tid), 'tracks.php', _AM_MYCONFERENCE_DELTRACK);
+            $tid = Request::getInt('tid', 0, 'POST');//trim($_POST['tid']) or $eh::show('1001');
+            xoops_confirm(['fct' => 'deltrackok', 'tid' => $tid], 'tracks.php', _AM_MYCONFERENCE_DELTRACK);
             xoops_cp_footer();
         }
         break;
 
     case 'deltrackok':
-        $tid = XoopsRequest::getInt('tid', 0, 'POST');//trim($_POST['tid']) or $eh::show('1001');
+        $tid = Request::getInt('tid', 0, 'POST');//trim($_POST['tid']) or $eh::show('1001');
         $result = $xoopsDB->query('DELETE FROM ' . $xoopsDB->prefix('myconference_tracks') . " WHERE tid=$tid");// or $eh::show('0013');
         redirect_header('tracks.php', 2, _AM_MYCONFERENCE_DBUPDATED);
         break;
 
     case 'addtrack':
-        $cid     = XoopsRequest::getInt('cid', 0, 'POST');//$_POST['cid'];
-        $title   = $myts->stripslashesGPC(trim(XoopsRequest::getString('title', '', 'POST')));//$_POST['title']));
-        $summary = $myts->stripslashesGPC(trim(XoopsRequest::getString('summary', '', 'POST')));//$_POST['summary']));
+        $cid     = Request::getInt('cid', 0, 'POST');//$_POST['cid'];
+        $title   = $myts->stripslashesGPC(trim(Request::getString('title', '', 'POST')));//$_POST['title']));
+        $summary = $myts->stripslashesGPC(trim(Request::getString('summary', '', 'POST')));//$_POST['summary']));
 
         $eh = new ErrorHandler;
 

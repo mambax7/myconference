@@ -21,7 +21,7 @@
 function getFile($file)
 {
     include_once XOOPS_ROOT_PATH . '/class/uploader.php';
-    $mimetypes = array(
+    $mimetypes = [
         'image/gif',
         'image/jpeg',
         'image/pjpeg',
@@ -62,9 +62,9 @@ function getFile($file)
         'application/x-gtar',
         'application/x-dvi',
         'audio/mpeg'
-    );
+    ];
 
-    $uploader = new XoopsMediaUploader(MYCONFERENCE_UPLOAD_PATH .'/images' , $mimetypes, 1000000, 1000, 1000);
+    $uploader = new XoopsMediaUploader(MYCONFERENCE_UPLOAD_PATH .'/images', $mimetypes, 1000000, 1000, 1000);
     $uploader->setPrefix('cnfr');
     if ($uploader->fetchMedia($file)) {
         if (!$uploader->upload()) {
@@ -93,7 +93,7 @@ function XoopsFormDateTimeI($caption, $name, $size = 15, $value = 0, $interval =
     $value    = ($value > 0) ? $value : time();
     $datetime = getdate($value);
     $fe->addElement(new XoopsFormTextDateSelect('', $name . '[date]', $size, $value));
-    $timearray = array();
+    $timearray = [];
     for ($i = 0; $i < 24; ++$i) {
         for ($j = 0; $j < 60; $j += $interval) {
             $key             = ($i * 3600) + ($j * 60);

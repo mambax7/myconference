@@ -18,6 +18,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
+
 include __DIR__ . '/header.php';
 include XOOPS_ROOT_PATH . '/header.php';
 //$eh = new ErrorHandler;
@@ -49,7 +51,7 @@ function printRow($ctime, $row, $tpos, $class)
 //    $cid = $_POST['cid'];
 //}
 
-$cid     = XoopsRequest::getInt('cid', XoopsRequest::getInt('cid', 0, 'GET'), 'POST');
+$cid     = Request::getInt('cid', Request::getInt('cid', 0, 'GET'), 'POST');
 
 if (0 === $cid) {
     $result = $xoopsDB->query('SELECT cid FROM ' . $xoopsDB->prefix('myconference_main') . ' WHERE isdefault=1');// or $eh::show("1001");
@@ -64,11 +66,11 @@ $edate = strtotime($edate . ' 23:59:59');
 
 echo "
     <hr width=50% align='center'>
-    <center>
+    <div class='center;'>
     <font size=+1><b>$ctitle</b></font><br>
     <b><i>$subtitle</i></b><br>
     <font size=+1>$subsubtitle</font><br>
-    </center>
+    </div>
     <hr width=50% align='center'>
 ";
 
@@ -115,7 +117,8 @@ for ($d = $sdate; $d <= $edate; $d += $oneday) {
         $oldest   = ($etime > $oldest) ? $etime : $oldest;
     }
 
-    $swidth = count(_MD_MYCONFERENCE_SCHEDULE);
+//    $swidth = count(_MD_MYCONFERENCE_SCHEDULE);
+    $swidth = 100;
     echo "<tr>\n<td align=center class=head width=$swidth>" . _MD_MYCONFERENCE_SCHEDULE . "</td>\n";
     $ntitle = array_reverse($title);
     foreach ($title as $tid => $v) {
@@ -134,8 +137,8 @@ for ($d = $sdate; $d <= $edate; $d += $oneday) {
         echo "<td class=$class width=$swidth align=\"center\" style=\"vertical-align: middle;\"> " . date('H:i', $i) . "</td>\n";
         //query de charlas que tienen este horario en su rango
         $s_result = $xoopsDB->query('SELECT sid, tid, stime, duration FROM ' . $xoopsDB->prefix('myconference_speeches') . " WHERE cid=$cid AND $i BETWEEN stime AND etime ORDER BY stime, tid");// or $eh::show("0013");
-        $printpos = array();
-        $row      = array();
+        $printpos = [];
+        $row      = [];
         while (list($sid, $tid, $stime, $duration) = $xoopsDB->fetchRow($s_result)) {
             //loop de tracks
             $etime = $stime + $duration * 60;

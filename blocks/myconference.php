@@ -28,12 +28,16 @@
  * @param $options
  * @return array
  */
+
+use Xmf\Request;
+
+
 function b_myconference_show($options)
 {
     global $xoopsDB;
     xoops_load('XoopsRequest');
-    $block = array();
-    $cid     = XoopsRequest::getInt('cid', XoopsRequest::getInt('cid', 0, 'GET'), 'POST');
+    $block = [];
+    $cid     = Request::getInt('cid', Request::getInt('cid', 0, 'GET'), 'POST');
 
     if (0 === $cid) {
         $rv = $xoopsDB->query('SELECT cid FROM ' . $xoopsDB->prefix('myconference_main') . ' WHERE isdefault=1');// or $eh::show('1001');
@@ -41,15 +45,15 @@ function b_myconference_show($options)
     }
 
     if ($cid > 0) {
-    $section['sid']      = 0;
-    $section['title']    = _MB_MYCONFERENCE_PROGRAM;
-    $block['sections'][] = $section;
-    $rv                  = $xoopsDB->query('SELECT sid, title FROM ' . $xoopsDB->prefix('myconference_sections') . " WHERE cid=$cid ORDER BY title");
-    while (list($sid, $title) = $xoopsDB->fetchRow($rv)) {
-        $section['sid']      = $sid;
-        $section['title']    = $title;
+        $section['sid']      = 0;
+        $section['title']    = _MB_MYCONFERENCE_PROGRAM;
         $block['sections'][] = $section;
-    }
+        $rv                  = $xoopsDB->query('SELECT sid, title FROM ' . $xoopsDB->prefix('myconference_sections') . " WHERE cid=$cid ORDER BY title");
+        while (list($sid, $title) = $xoopsDB->fetchRow($rv)) {
+            $section['sid']      = $sid;
+            $section['title']    = $title;
+            $block['sections'][] = $section;
+        }
     }
     return $block;
 }

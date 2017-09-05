@@ -100,13 +100,3 @@ define('_AM_MYCONFERENCE_ERROR_COLUMN', 'Could not create column in database : %
 define('_AM_MYCONFERENCE_ERROR_BAD_XOOPS', 'This module requires XOOPS %s+ (%s installed)');
 define('_AM_MYCONFERENCE_ERROR_BAD_PHP', 'This module requires PHP version %s+ (%s installed)');
 define('_AM_MYCONFERENCE_ERROR_TAG_REMOVAL', 'Could not remove tags from Tag Module');
-
-
-
-
-
-
-
-
-
-

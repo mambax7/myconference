@@ -18,6 +18,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
+
 include __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'myconference_speech.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
@@ -30,7 +32,7 @@ $myts = MyTextSanitizer::getInstance();
 //    $sid = (int)$_POST['sid'];
 //}
 
-$sid     = XoopsRequest::getInt('sid', XoopsRequest::getInt('sid', 0, 'GET'), 'POST');
+$sid     = Request::getInt('sid', Request::getInt('sid', 0, 'GET'), 'POST');
 
 //if (empty($sid)) {
 //    $eh::show('0013');
@@ -42,7 +44,7 @@ $xoopsTpl->assign('lang_date', _MD_MYCONFERENCE_DATE);
 $xoopsTpl->assign('lang_time', _MD_MYCONFERENCE_TIME);
 $xoopsTpl->assign('lang_duration', _MD_MYCONFERENCE_DURATION);
 $xoopsTpl->assign('lang_summary', _MD_MYCONFERENCE_SUMMARY);
-$labels = array(_MD_MYCONFERENCE_SPEAKER, _MD_MYCONFERENCE_DATE, _MD_MYCONFERENCE_TIME, _MD_MYCONFERENCE_DURATION, _MD_MYCONFERENCE_SUMMARY);
+$labels = [_MD_MYCONFERENCE_SPEAKER, _MD_MYCONFERENCE_DATE, _MD_MYCONFERENCE_TIME, _MD_MYCONFERENCE_DURATION, _MD_MYCONFERENCE_SUMMARY];
 foreach ($labels as $v) {
     $width = (strlen($v) > $width) ? strlen($v) : $width;
 }
@@ -73,11 +75,11 @@ $result = $xoopsDB->query('SELECT sid, title FROM ' . $xoopsDB->prefix('myconfer
 
 $count = 1;
 while ($section = $xoopsDB->fetchArray($result)) {
-    $xoopsTpl->append('sections', array('id' => $section['sid'], 'title' => $section['title'], 'count' => $count));
+    $xoopsTpl->append('sections', ['id' => $section['sid'], 'title' => $section['title'], 'count' => $count]);
     ++$count;
 }
 $xoopsTpl->assign('cid', $cid);
-$xoopsTpl->append('sections', array('id' => 0, 'title' => _MD_MYCONFERENCE_PROGRAM, 'count' => $count));
+$xoopsTpl->append('sections', ['id' => 0, 'title' => _MD_MYCONFERENCE_PROGRAM, 'count' => $count]);
 ++$count;
 
 include XOOPS_ROOT_PATH . '/footer.php';

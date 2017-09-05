@@ -18,6 +18,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA //
 // ------------------------------------------------------------------------- //
 
+use Xmf\Request;
+
 include __DIR__ . '/admin_header.php';
 include __DIR__ . '/conference.php';
 include_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
@@ -43,19 +45,19 @@ $eh = new ErrorHandler;
 //    $fct = '';
 //}
 
-$fct = XoopsRequest::getString('fct', XoopsRequest::getString('fct', '', 'GET'), 'POST');
+$fct = Request::getString('fct', Request::getString('fct', '', 'GET'), 'POST');
 
 switch ($fct) {
     case 'updconference':
         $eh          = new ErrorHandler;
-        $cid         = XoopsRequest::getInt('cid', 0, 'POST');//$_POST['cid'];
-        $isdefault   = XoopsRequest::getInt('isdefault', 0, 'POST');//$_POST['isdefault'];
-        $title       = XoopsRequest::getString('title', '', 'POST');//$_POST['title'];
-        $subtitle    = XoopsRequest::getString('subtitle', '', 'POST');//$_POST['subtitle'];
-        $subsubtitle = XoopsRequest::getString('subsubtitle', '', 'POST');//$_POST['subsubtitle'];
-        $sdate       = XoopsRequest::getString('sdate', '', 'POST');//$_POST['sdate'];
-        $edate       = XoopsRequest::getString('edate', '', 'POST');//$_POST['edate'];
-        $summary     = XoopsRequest::getString('summary', '', 'POST');//$_POST['summary'];
+        $cid         = Request::getInt('cid', 0, 'POST');//$_POST['cid'];
+        $isdefault   = Request::getInt('isdefault', 0, 'POST');//$_POST['isdefault'];
+        $title       = Request::getString('title', '', 'POST');//$_POST['title'];
+        $subtitle    = Request::getString('subtitle', '', 'POST');//$_POST['subtitle'];
+        $subsubtitle = Request::getString('subsubtitle', '', 'POST');//$_POST['subsubtitle'];
+        $sdate       = Request::getString('sdate', '', 'POST');//$_POST['sdate'];
+        $edate       = Request::getString('edate', '', 'POST');//$_POST['edate'];
+        $summary     = Request::getString('summary', '', 'POST');//$_POST['summary'];
         if ($isdefault) {
             // Since this is our default congress, we will update all the other congresses out there
             $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('myconference_main') . ' SET isdefault=0');// or $eh::show('0013');
@@ -68,10 +70,10 @@ switch ($fct) {
     case 'editconference':
         xoops_cp_header();
 
-        $action = $action = XoopsRequest::getString('action', 0, 'POST');//$_POST['action'];
-        $cid    = XoopsRequest::getInt('cid', 0, 'POST');//$_POST['cid'];
+        $action = $action = Request::getString('action', 0, 'POST');//$_POST['action'];
+        $cid    = Request::getInt('cid', 0, 'POST');//$_POST['cid'];
         if ($action === 'upd') {
-            $cid = XoopsRequest::getInt('cid', 0, 'POST');//trim($_POST['cid']) or $eh::show('1001');
+            $cid = Request::getInt('cid', 0, 'POST');//trim($_POST['cid']) or $eh::show('1001');
             $result = $xoopsDB->query('SELECT isdefault,title,subtitle,subsubtitle,sdate,edate,summary FROM ' . $xoopsDB->prefix('myconference_main') . " WHERE cid=$cid");// or $eh::show('0013');
             list($isdefault_v, $title_v, $subtitle_v, $subsubtitle_v, $sdate_v, $edate_v, $summary_v) = $xoopsDB->fetchRow($result);
 
@@ -104,14 +106,14 @@ switch ($fct) {
 
             xoops_cp_footer();
         } elseif ($action === 'del') {
-            $cid = XoopsRequest::getInt('cid', 0, 'POST');//trim($_POST['cid']) or $eh::show('1001');
-            xoops_confirm(array('fct' => 'delconferenceok', 'cid' => $cid), 'main.php', _AM_MYCONFERENCE_DELCONFERENCE);
+            $cid = Request::getInt('cid', 0, 'POST');//trim($_POST['cid']) or $eh::show('1001');
+            xoops_confirm(['fct' => 'delconferenceok', 'cid' => $cid], 'main.php', _AM_MYCONFERENCE_DELCONFERENCE);
             xoops_cp_footer();
         }
         break;
 
     case 'delconferenceok':
-        $cid = XoopsRequest::getInt('cid', 0, 'POST');//trim($_POST['cid']) or $eh::show('1001');
+        $cid = Request::getInt('cid', 0, 'POST');//trim($_POST['cid']) or $eh::show('1001');
         $result = $xoopsDB->query('DELETE FROM ' . $xoopsDB->prefix('myconference_main') . " WHERE cid=$cid");// or $eh::show('0013');
         redirect_header('main.php', 2, _AM_MYCONFERENCE_DBUPDATED);
         break;
@@ -120,13 +122,13 @@ switch ($fct) {
         //global $_POST;
         $eh = new ErrorHandler;
 
-        $sdate       = XoopsRequest::getString('sdate', '', 'POST');//$_POST['sdate'];
-        $edate       = XoopsRequest::getString('edate', '', 'POST');//$_POST['edate'];
-        $isdefault   = XoopsRequest::getInt('isdefault', 0, 'POST');//$_POST['isdefault'];
-        $title       = $myts->stripslashesGPC(trim(XoopsRequest::getString('title', '', 'POST')));//$_POST['title']));
-        $subtitle    = $myts->stripslashesGPC(trim(XoopsRequest::getString('subtitle', '', 'POST')));//$_POST['subtitle']));
-        $subsubtitle = $myts->stripslashesGPC(trim(XoopsRequest::getString('subsubtitle', '', 'POST')));//$_POST['subsubtitle']));
-        $summary     = $myts->stripslashesGPC(trim(XoopsRequest::getString('summary', '', 'POST')));//$_POST['summary']));
+        $sdate       = Request::getString('sdate', '', 'POST');//$_POST['sdate'];
+        $edate       = Request::getString('edate', '', 'POST');//$_POST['edate'];
+        $isdefault   = Request::getInt('isdefault', 0, 'POST');//$_POST['isdefault'];
+        $title       = $myts->stripslashesGPC(trim(Request::getString('title', '', 'POST')));//$_POST['title']));
+        $subtitle    = $myts->stripslashesGPC(trim(Request::getString('subtitle', '', 'POST')));//$_POST['subtitle']));
+        $subsubtitle = $myts->stripslashesGPC(trim(Request::getString('subsubtitle', '', 'POST')));//$_POST['subsubtitle']));
+        $summary     = $myts->stripslashesGPC(trim(Request::getString('summary', '', 'POST')));//$_POST['summary']));
 
         if ($isdefault) {
             // Since this guy is our default congress, will update all the other congresses out there
