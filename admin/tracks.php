@@ -64,7 +64,7 @@ switch ($fct) {
         $action = $action = Request::getString('action', 0, 'POST');//$_POST['action'];
         $tid    = $tid     = Request::getInt('tid', 0, 'POST');//$_POST['tid'];
         $cid    = $cid     = Request::getInt('cid', 0, 'POST');//$_POST['cid'];
-        if ($action === 'upd') {
+        if ('upd' === $action) {
             $tid = Request::getInt('tid', 0, 'POST');//trim($_POST['tid']) or $eh::show('1001');
             $result = $xoopsDB->query('SELECT cid,title,summary FROM ' . $xoopsDB->prefix('myconference_tracks') . " WHERE tid=$tid");// or $eh::show('0013');
             list($cid_v, $title_v, $summary_v) = $xoopsDB->fetchRow($result);
@@ -95,7 +95,7 @@ switch ($fct) {
             $form->display();
 
             xoops_cp_footer();
-        } elseif ($action === 'del') {
+        } elseif ('del' === $action) {
             $tid = Request::getInt('tid', 0, 'POST');//trim($_POST['tid']) or $eh::show('1001');
             xoops_confirm(['fct' => 'deltrackok', 'tid' => $tid], 'tracks.php', _AM_MYCONFERENCE_DELTRACK);
             xoops_cp_footer();

@@ -133,7 +133,7 @@ for ($d = $sdate; $d <= $edate; $d += $oneday) {
     $class    = 'odd';
     for ($i = $earliest; $i < $oldest; $i += $interval) {
         echo "<tr>\n";
-        $class = ($class === 'even') ? 'odd' : 'even';
+        $class = ('even' === $class) ? 'odd' : 'even';
         echo "<td class=$class width=$swidth align=\"center\" style=\"vertical-align: middle;\"> " . date('H:i', $i) . "</td>\n";
         //query de charlas que tienen este horario en su rango
         $s_result = $xoopsDB->query('SELECT sid, tid, stime, duration FROM ' . $xoopsDB->prefix('myconference_speeches') . " WHERE cid=$cid AND $i BETWEEN stime AND etime ORDER BY stime, tid");// or $eh::show("0013");

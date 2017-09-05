@@ -72,7 +72,7 @@ switch ($fct) {
 
         $action = $action = Request::getString('action', 0, 'POST');//$_POST['action'];
         $cid    = Request::getInt('cid', 0, 'POST');//$_POST['cid'];
-        if ($action === 'upd') {
+        if ('upd' === $action) {
             $cid = Request::getInt('cid', 0, 'POST');//trim($_POST['cid']) or $eh::show('1001');
             $result = $xoopsDB->query('SELECT isdefault,title,subtitle,subsubtitle,sdate,edate,summary FROM ' . $xoopsDB->prefix('myconference_main') . " WHERE cid=$cid");// or $eh::show('0013');
             list($isdefault_v, $title_v, $subtitle_v, $subsubtitle_v, $sdate_v, $edate_v, $summary_v) = $xoopsDB->fetchRow($result);
@@ -105,7 +105,7 @@ switch ($fct) {
             $form->display();
 
             xoops_cp_footer();
-        } elseif ($action === 'del') {
+        } elseif ('del' === $action) {
             $cid = Request::getInt('cid', 0, 'POST');//trim($_POST['cid']) or $eh::show('1001');
             xoops_confirm(['fct' => 'delconferenceok', 'cid' => $cid], 'main.php', _AM_MYCONFERENCE_DELCONFERENCE);
             xoops_cp_footer();

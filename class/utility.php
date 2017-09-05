@@ -147,7 +147,7 @@ class MyconferenceUtility
         $img_dir = $GLOBALS['xoopsModuleConfig']['uploaddir'] . '/images';
         include_once $GLOBALS['xoops']->path('class/uploader.php');
         $field = $_POST['xoops_upload_file'][$num];
-        if (!empty($field) || $field != '') {
+        if (!empty($field) || '' != $field) {
             $uploader = new XoopsMediaUploader($img_dir, $allowed_mimetypes, $max_imgsize, $max_imgwidth, $max_imgheight);
             $uploader->setPrefix('img');
             if ($uploader->fetchMedia($field) && $uploader->upload()) {
@@ -466,7 +466,7 @@ class MyconferenceUtility
      */
     public static function setCookieVar($name, $value, $time = 0)
     {
-        if ($time == 0) {
+        if (0 == $time) {
             $time = time() + 3600 * 24 * 365;
             //$time = '';
         }
@@ -493,12 +493,12 @@ class MyconferenceUtility
      */
     public static function getCurrentUrls()
     {
-        $http        = (strpos(XOOPS_URL, 'https://') === false) ? 'http://' : 'https://';
+        $http        = (false === strpos(XOOPS_URL, 'https://')) ? 'http://' : 'https://';
         $phpSelf     = $_SERVER['PHP_SELF'];
         $httpHost    = $_SERVER['HTTP_HOST'];
         $queryString = $_SERVER['QUERY_STRING'];
 
-        if ($queryString != '') {
+        if ('' != $queryString) {
             $queryString = '?' . $queryString;
         }
 

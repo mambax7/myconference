@@ -35,7 +35,7 @@ function imageSave()
     // creates the record in the database; if it is an edit, the
     // modified fields are only kept in the database.
     $result = $xoopsDB->query('SELECT * from ' . $xoopsDB->prefix('fm_pics') . " WHERE filename = '$filename'");
-    if ($xoopsDB->getRowsNum($result) == 0) {
+    if (0 == $xoopsDB->getRowsNum($result)) {
         if (!$picID) {
             $sqlquery = 'INSERT INTO ' . $xoopsDB->prefix('fm_pics') . " ( picID, name, filename, caption, uploaded ) values ( '', '$name', '$filename', '$caption', '$date' )";
             // if entry was successfully inserted

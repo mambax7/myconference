@@ -88,7 +88,7 @@ switch ($fct) {
         xoops_cp_header();
 
         $action = $action = Request::getString('action', 0, 'POST');//$_POST['action'];
-        if ($action === 'upd') {
+        if ('upd' === $action) {
             $sid = Request::getInt('sid', 0, 'POST');//trim($_POST['sid']) or $eh::show('1001');
             $result = $xoopsDB->query('SELECT title,summary,stime,etime,speakerid,cid,tid,duration,slides1,slides2,slides3,slides4 FROM ' . $xoopsDB->prefix('myconference_speeches') . " WHERE sid=$sid");// or $eh::show('0013');
             list($title_v, $summary_v, $stime_v, $etime_v, $speakerid_v, $cid_v, $tid_v, $duration_v, $slides1_v, $slides2_v, $slides3_v, $slides4_v) = $xoopsDB->fetchRow($result);
@@ -151,7 +151,7 @@ switch ($fct) {
             $form->display();
 
             xoops_cp_footer();
-        } elseif ($action === 'del') {
+        } elseif ('del' === $action) {
             $sid = Request::getInt('sid', 0, 'POST');//trim($_POST['sid']) or $eh::show('1001');
             xoops_confirm(['fct' => 'delspeechok', 'sid' => $sid], 'speeches.php', _AM_MYCONFERENCE_DELSPEECH);
             xoops_cp_footer();

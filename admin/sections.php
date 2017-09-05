@@ -64,7 +64,7 @@ switch ($fct) {
 
         $action = Request::getString('action', 0, 'POST');//$_POST['action'];
         $sid    = Request::getInt('sid', 0, 'POST');//$_POST['sid'];
-        if ($action === 'upd') {
+        if ('upd' === $action) {
 //            $sid = trim($_POST['sid']) or $eh::show('1001');
             $result = $xoopsDB->query('SELECT title, cid, summary FROM ' . $xoopsDB->prefix('myconference_sections') . " WHERE sid=$sid");// or $eh::show('0013');
 
@@ -95,7 +95,7 @@ switch ($fct) {
             $form->display();
 
             xoops_cp_footer();
-        } elseif ($action === 'del') {
+        } elseif ('del' === $action) {
 //            $sid = trim($_POST['sid']) or $eh::show('1001');
             xoops_confirm(['fct' => 'delsectionok', 'sid' => $sid], 'sections.php', _AM_MYCONFERENCE_DELSECTION);
             xoops_cp_footer();

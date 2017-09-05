@@ -91,7 +91,7 @@ switch ($fct) {
         xoops_cp_header();
 
         $action = Request::getString('action', 0, 'POST');//$_POST['action'];
-        if ($action === 'upd') {
+        if ('upd' === $action) {
             $speakerid = Request::getInt('speakerid', 0, 'POST');//trim($_POST['speakerid']) or $eh::show('1001');
             $result = $xoopsDB->query('SELECT name,email,company,location,url,photo,descrip FROM ' . $xoopsDB->prefix('myconference_speakers') . " WHERE speakerid=$speakerid");// or $eh::show('0013');
             list($name_v, $email_v, $company_v, $location_v, $url_v, $photo_v, $minibio_v) = $xoopsDB->fetchRow($result);
@@ -151,7 +151,7 @@ switch ($fct) {
             $form->display();
 
             xoops_cp_footer();
-        } elseif ($action === 'del') {
+        } elseif ('del' === $action) {
             $speakerid = Request::getInt('speakerid', 0, 'POST');//trim($_POST['speakerid']) or $eh::show('1001');
             xoops_confirm(['fct' => 'delspeakerok', 'speakerid' => $speakerid], 'speakers.php', _AM_MYCONFERENCE_DEL_SPEAKER);
             xoops_cp_footer();
