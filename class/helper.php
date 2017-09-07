@@ -15,9 +15,6 @@
  * @author      mamba <mambax7@gmail.com>
  */
 
-use Xmf\Request;
-
-
 class Myconference extends \Xmf\Module\Helper {
 
     /**

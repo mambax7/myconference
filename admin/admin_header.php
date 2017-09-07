@@ -30,12 +30,12 @@ if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
     $moduleHelper = Xmf\Module\Helper::getHelper('system');
 }
 /** @var Xmf\Module\Admin $adminObject */
-$adminObject = Xmf\Module\Admin::getInstance();
+$adminObject = \Xmf\Module\Admin::getInstance();
 
 
 
-$pathIcon16      = Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32      = Xmf\Module\Admin::iconUrl('', 32);
+$pathIcon16      = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32      = \Xmf\Module\Admin::iconUrl('', 32);
 $pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
 
 // Load language files
@@ -45,8 +45,8 @@ $moduleHelper->loadLanguage('main');
 
 
 // Local icons path
-$xoopsTpl->assign('pathModIcon16', $pathIcon16);
-$xoopsTpl->assign('pathModIcon32', $pathIcon32);
+// $xoopsTpl->assign('pathModIcon16', $pathIcon16);
+// $xoopsTpl->assign('pathModIcon32', $pathIcon32);
 
 $myts = MyTextSanitizer::getInstance();
 

@@ -9,11 +9,11 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- *  WfdownloadsSession class
+ *  MyconferenceSession class
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         Wfdownloads
+ * @package         Myconference
  * @since           3.23
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Harry Fuecks (PHP Anthology Volume II)
@@ -23,9 +23,9 @@ defined('XOOPS_ROOT_PATH') || die('XOOPS root path not defined');
 require_once __DIR__ . '/../../include/common.php';
 
 /**
- * Class WfdownloadsSession
+ * Class MyconferenceSession
  */
-class WfdownloadsSession
+class MyconferenceSession
 {
     /**
      * Session constructor<br>
@@ -95,13 +95,13 @@ class WfdownloadsSession
     }
 
     /**
-     * @return WfdownloadsSession
+     * @return MyconferenceSession
      */
     public static function getInstance()
     {
         static $_sess;
         if (!isset($_sess)) {
-            $_sess = new WfdownloadsSession();
+            $_sess = new self();
         }
 
         return $_sess;

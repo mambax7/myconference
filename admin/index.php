@@ -23,7 +23,7 @@ $adminObject = \Xmf\Module\Admin::getInstance();
 
 
 
-$adminObject->displayNavigation(basename(__FILE__));
+
 //------------- Test Data ----------------------------
 //showsamplebutton
 if ($moduleHelper->getConfig('showsamplebutton')) {
@@ -34,6 +34,22 @@ if ($moduleHelper->getConfig('showsamplebutton')) {
 }
 //------------- End Test Data ----------------------------
 
+/** @var WflinksUtility $utilityClass */
+$utilityClass = ucfirst($moduleDirName) . 'Utility';
+if (!class_exists($utilityClass)) {
+    xoops_load('utility', $moduleDirName);
+}
+
+$configurator = include __DIR__ . '/../include/config.php';
+foreach (array_keys($configurator->uploadFolders) as $i) {
+    $utilityClass::createFolder($configurator->uploadFolders[$i]);
+}
+
+$adminObject->displayNavigation(basename(__FILE__));
 $adminObject->displayIndex();
 
-include_once __DIR__ . '/admin_footer.php';
+//$moduleDirName = basename(dirname(__DIR__));
+
+echo $utilityClass::getServerStats();
+
+require_once __DIR__ . '/admin_footer.php';

@@ -1,8 +1,12 @@
 <?php
 
-/**
- * Class MyconferenceUtility
- */
+use Xmf\Request;
+
+require_once __DIR__ . '/common/traitversionchecks.php';
+require_once __DIR__ . '/common/traitserverstats.php';
+require_once __DIR__ . '/common/traitfilesmgmt.php';
+
+
 
 $moduleDirName = basename(dirname(__DIR__));
 require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/common.php");
@@ -27,90 +31,13 @@ $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
  */
 class MyconferenceUtility
 {
+    use VersionChecks; //checkVerXoops, checkVerPhp Traits
 
-    /**
-     *
-     * Verifies XOOPS version meets minimum requirements for this module
-     * @static
-     * @param XoopsModule $module
-     *
-     * @return bool true if meets requirements, false if not
-     */
-    public static function checkXoopsVer(XoopsModule $module)
-    {
-        xoops_loadLanguage('admin', $module->dirname());
-        //check for minimum XOOPS version
-        $currentVer  = substr(XOOPS_VERSION, 6); // get the numeric part of string
-        $currArray   = explode('.', $currentVer);
-        $requiredVer = '' . $module->getInfo('min_xoops'); //making sure it's a string
-        $reqArray    = explode('.', $requiredVer);
-        $success     = true;
-        foreach ($reqArray as $k => $v) {
-            if (isset($currArray[$k])) {
-                if ($currArray[$k] > $v) {
-                    break;
-                } elseif ($currArray[$k] == $v) {
-                    continue;
-                } else {
-                    $success = false;
-                    break;
-                }
-            } else {
-                if ((int)$v > 0) { // handles versions like x.x.x.0_RC2
-                    $success = false;
-                    break;
-                }
-            }
-        }
+    use ServerStats; // getServerStats Trait
 
-        if (false === $success) {
-            $module->setErrors(sprintf(_AM_MYCONFERENCE_ERROR_BAD_XOOPS, $requiredVer, $currentVer));
-        }
+    use FilesManagement; // Files Management Trait
 
-        return $success;
-    }
 
-    /**
-     *
-     * Verifies PHP version meets minimum requirements for this module
-     * @static
-     * @param XoopsModule $module
-     *
-     * @return bool true if meets requirements, false if not
-     */
-    public static function checkPhpVer(XoopsModule $module)
-    {
-        xoops_loadLanguage('admin', $module->dirname());
-        // check for minimum PHP version
-        $success = true;
-        $verNum  = PHP_VERSION;
-        $reqVer  =& $module->getInfo('min_php');
-        if (false !== $reqVer && '' !== $reqVer) {
-            if (version_compare($verNum, $reqVer, '<')) {
-                $module->setErrors(sprintf(_AM_MYCONFERENCE_ERROR_BAD_PHP, $reqVer, $verNum));
-                $success = false;
-            }
-        }
-
-        return $success;
-    }
-
-    /**
-     * Function responsible for checking if a directory exists, we can also write in and create an index.html file
-     *
-     * @param string $folder The full path of the directory to check
-     *
-     * @return void
-     */
-    public static function prepareFolder($folder)
-    {
-        //        $filteredFolder = XoopsFilterInput::clean($folder, 'PATH');
-        if (!is_dir($folder)) {
-            mkdir($folder);
-            file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
-        }
-        //        chmod($filteredFolder, 0777);
-    }
 
     /**
      * @param $columncount
