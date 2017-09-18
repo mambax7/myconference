@@ -39,4 +39,6 @@
 
 
 $debug = false;
-//$xoalbum = XoalbumXoalbum::getInstance($debug);
+
+$moduleDirName = basename(dirname(__DIR__));
+$xoopsTpl->assign('mod_url',  XOOPS_URL . '/modules/' . $moduleDirName);

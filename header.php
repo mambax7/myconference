@@ -24,4 +24,3 @@ include_once XOOPS_ROOT_PATH . '/kernel/module.php';
 include_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
 include_once __DIR__ . '/class/utility.php';
 
-xoops_load('XoopsRequest');

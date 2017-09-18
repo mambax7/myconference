@@ -35,7 +35,6 @@ use Xmf\Request;
 function b_myconference_show($options)
 {
     global $xoopsDB;
-    xoops_load('XoopsRequest');
     $block = [];
     $cid     = Request::getInt('cid', Request::getInt('cid', 0, 'GET'), 'POST');
 

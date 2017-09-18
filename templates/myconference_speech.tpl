@@ -12,9 +12,9 @@
             <{foreach item=section from=$sections}>
             <{if $section.title}>
                 <{if $section.id == 0}>
-                    <td class="itemHead" valign="top"><a href="<{$xoops_url}>/modules/myconference/program.php?cid=<{$cid}>"><b><{$section.title}></b></a></td>
+                    <td class="itemHead" valign="top"><a href="<{$xoops_url}>/modules/<{$mod_url}>/program.php?cid=<{$cid}>"><b><{$section.title}></b></a></td>
                 <{else}>
-                    <td class="itemHead" valign="top"><a href="<{$xoops_url}>/modules/myconference/index.php?sid=<{$section.id}>"><b><{$section.title}></b></a></td>
+                    <td class="itemHead" valign="top"><a href="<{$xoops_url}>/modules/<{$mod_url}>/index.php?sid=<{$section.id}>"><b><{$section.title}></b></a></td>
                 <{/if}>
             <{/if}>
             <{if $section.count % 5 == 0}>
@@ -32,7 +32,7 @@
     </tr>
     <tr>
         <td class=odd width='<{$width}>'><{$lang_speaker}></td>
-        <td class=odd><a href="<{$xoops_url}>/modules/myconference/viewspeaker.php?speakerid=<{$speakerid}>"><{$sname}></td>
+        <td class=odd><a href="<{$xoops_url}>/modules/<{$mod_url}>/viewspeaker.php?speakerid=<{$speakerid}>"><{$sname}></td>
     </tr>
     <tr>
         <td class=even width='<{$width}>'><{$lang_date}></td>
