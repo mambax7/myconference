@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Myconference;
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -15,16 +15,43 @@
  * @author      mamba <mambax7@gmail.com>
  */
 
-class Myconference extends \Xmf\Module\Helper {
+/**
+ * Class Helper
+ */
+class Helper extends \Xmf\Module\Helper
+{
+    public $debug;
 
     /**
-     * Init the module
-     *
-     * @return null|void
+     * @internal param $debug
+     * @param bool $debug
      */
-    public function init()
+    protected function __construct($debug = false)
     {
+        $this->debug   = $debug;
         $this->dirname = basename(dirname(__DIR__));
     }
 
+    /**
+     * @param bool $debug
+     *
+     * @return \Helper
+     */
+    public static function getInstance($debug = false)
+    {
+        static $instance;
+        if (null === $instance) {
+            $instance = new static($debug);
+        }
+
+        return $instance;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDirname()
+    {
+        return $this->dirname;
+    }
 }

@@ -1,11 +1,7 @@
-<?php
+<?php namespace XoopsModules\Myconference;
 
 use Xmf\Request;
-
-require_once __DIR__ . '/common/traitversionchecks.php';
-require_once __DIR__ . '/common/traitserverstats.php';
-require_once __DIR__ . '/common/traitfilesmgmt.php';
-
+use XoopsModules\Myconference\Common;
 
 
 $moduleDirName = basename(dirname(__DIR__));
@@ -27,15 +23,15 @@ $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
 */
 
 /**
- * Class MyconferenceUtility
+ * Class Utility
  */
-class MyconferenceUtility
+class Utility
 {
-    use VersionChecks; //checkVerXoops, checkVerPhp Traits
+    use common\VersionChecks; //checkVerXoops, checkVerPhp Traits
 
-    use ServerStats; // getServerStats Trait
+    use common\ServerStats; // getServerStats Trait
 
-    use FilesManagement; // Files Management Trait
+    use common\FilesManagement; // Files Management Trait
 
 
 

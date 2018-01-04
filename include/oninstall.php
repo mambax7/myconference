@@ -65,15 +65,11 @@ function xoops_module_install_myconference(XoopsModule $module)
     require_once  __DIR__ . '/../include/config.php';
 
     $moduleDirName = basename(dirname(__DIR__));
-
-    if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
-    } else {
-        $moduleHelper = Xmf\Module\Helper::getHelper('system');
-    }
+    $helper = \Xmf\Module\Helper::getHelper($moduleDirName);
 
     // Load language files
-    $moduleHelper->loadLanguage('admin');
-    $moduleHelper->loadLanguage('modinfo');
+    $helper->loadLanguage('admin');
+    $helper->loadLanguage('modinfo');
 
     $configurator = new MyconferenceConfigurator();
     $utilityClass    = ucfirst($moduleDirName) . 'Utility';
@@ -84,7 +80,7 @@ function xoops_module_install_myconference(XoopsModule $module)
     // default Permission Settings ----------------------
     global $xoopsModule;
     $moduleId     = $xoopsModule->getVar('mid');
-    $moduleId2    = $moduleHelper->getModule()->mid();
+    $moduleId2    = $helper->getModule()->mid();
     $gpermHandler = xoops_getHandler('groupperm');
     // access rights ------------------------------------------
     $gpermHandler->addRight($moduleDirName . '_approve', 1, XOOPS_GROUP_ADMIN, $moduleId);

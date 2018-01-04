@@ -31,7 +31,6 @@
 
 use Xmf\Request;
 
-
 function b_myconference_show($options)
 {
     global $xoopsDB;

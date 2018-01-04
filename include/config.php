@@ -170,7 +170,7 @@ class ModuleConfigurator
         ];
         $this->oldFiles        = [
             '/admin/admin.css',
-            '/class/utility.php',
+            '/class/Utility.php',
         ];
         $this->oldFolders      = [
             '/images',

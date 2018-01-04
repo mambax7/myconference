@@ -44,23 +44,15 @@ function tableExists($tablename)
  */
 function xoops_module_pre_update_myconference(XoopsModule $module)
 {
+    /** @var Myconference\Helper $helper */
+    /** @var Myconference\Utility $utility */
     $moduleDirName = basename(dirname(__DIR__));
-    /** @var \MyconferenceUtility $utilityClass */
-    $utilityClass     = ucfirst($moduleDirName) . 'Utility';
-    if (!class_exists($utilityClass)) {
-        xoops_load('utility', $moduleDirName);
-    }
-    //check for minimum XOOPS version
-    if (!$utilityClass::checkVerXoops($module)) {
-        return false;
-    }
+    $helper       = Myconference\Helper::getInstance();
+    $utility      = new Myconference\Utility();
 
-    // check for minimum PHP version
-    if (!$utilityClass::checkVerPhp($module)) {
-        return false;
-    }
-
-    return true;
+    $xoopsSuccess = $utility::checkVerXoops($module);
+    $phpSuccess   = $utility::checkVerPhp($module);
+    return $xoopsSuccess && $phpSuccess;
 }
 
 /**
@@ -77,14 +69,15 @@ function xoops_module_update_myconference(XoopsModule $module, $previousVersion 
     $moduleDirName = basename(dirname(__DIR__));
     $capsDirName   = strtoupper($moduleDirName);
 
-    if ($previousVersion < 240) {
-        require_once __DIR__ . '/config.php';
-        $configurator = new XmyconferenceConfigurator();
-        $utilityClass    = ucfirst($moduleDirName) . 'Utility';
-        if (!class_exists($utilityClass)) {
-            xoops_load('utility', $moduleDirName);
-        }
+    /** @var Myconference\Helper $helper */
+    /** @var Myconference\Utility $utility */
+    /** @var Myconference\Configurator $configurator */
+    $helper  = Myconference\Helper::getInstance();
+    $utility = new Myconference\Utility();
+    $configurator = new Myconference\Configurator();
 
+    if ($previousVersion < 240) {
+        
         //rename column EXAMPLE
         $tables     = new Tables();
         $table      = 'myconferencex_categories';
@@ -94,7 +87,7 @@ function xoops_module_update_myconference(XoopsModule $module, $previousVersion 
         if ($tables->useTable($table)) {
             $tables->alterColumn($table, $column, $attributes, $newName);
             if (!$tables->executeQueue()) {
-                echo '<br />' . _AM_XXXXX_UPGRADEFAILED0 . ' ' . $migrate->getLastError();
+                echo '<br>' . _AM_XXXXX_UPGRADEFAILED0 . ' ' . $migrate->getLastError();
             }
         }
 
@@ -166,4 +159,3 @@ function xoops_module_update_myconference(XoopsModule $module, $previousVersion 
     }
     return true;
 }
-

@@ -24,7 +24,7 @@ include __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'myconference_index.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
 //$eh   = new ErrorHandler;
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 //if (($_POST)) {
 //    foreach ($_POST as $k => $v) {

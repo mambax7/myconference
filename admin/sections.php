@@ -24,7 +24,7 @@ include __DIR__ . '/admin_header.php';
 include __DIR__ . '/conference.php';
 include_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
 
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 $eh = new ErrorHandler;
 

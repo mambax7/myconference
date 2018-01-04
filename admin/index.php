@@ -26,7 +26,7 @@ $adminObject = \Xmf\Module\Admin::getInstance();
 
 //------------- Test Data ----------------------------
 //showsamplebutton
-if ($moduleHelper->getConfig('showsamplebutton')) {
+if ($helper->getConfig('showsamplebutton')) {
     xoops_loadLanguage('admin/modulesadmin', 'system');
     require_once __DIR__ . '/../testdata/index.php';
     $adminObject->addItemButton(_AM_SYSTEM_MODULES_INSTALL_TESTDATA, '__DIR__ . /../../testdata/index.php?op=load', 'add');
@@ -50,6 +50,6 @@ $adminObject->displayIndex();
 
 //$moduleDirName = basename(dirname(__DIR__));
 
-echo $utilityClass::getServerStats();
+echo $utility::getServerStats();
 
 require_once __DIR__ . '/admin_footer.php';

@@ -24,7 +24,7 @@ include __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'myconference_track.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
 // $eh   = new ErrorHandler;
-$myts = MyTextSanitizer::getInstance();
+$myts = \MyTextSanitizer::getInstance();
 
 //if (isset($_GET['tid'])) {
 //    $tid = $_GET['tid'];

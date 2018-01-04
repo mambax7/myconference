@@ -41,4 +41,4 @@
 $debug = false;
 
 $moduleDirName = basename(dirname(__DIR__));
-$xoopsTpl->assign('mod_url',  XOOPS_URL . '/modules/' . $moduleDirName);
+$xoopsTpl->assign('mod_url', XOOPS_URL . '/modules/' . $moduleDirName);

@@ -65,3 +65,7 @@ define('_MI_MYCONFERENCE_HELP_OVERVIEW', 'Overview');
 
 define('_MI_MYCONFERENCE_SHOW_SAMPLE_BUTTON', 'Show Sample Button?');
 define('_MI_MYCONFERENCE_SHOW_SAMPLE_BUTTON_DESC', 'If yes, the "Add Sample Data" button will be visible to the Admin. It is Yes as a default for first installation.');
+
+
+define('_MI_MYCONFERENCE_HOME', 'Home');
+define('_MI_MYCONFERENCE_ABOUT', 'About');
