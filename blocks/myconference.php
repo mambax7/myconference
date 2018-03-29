@@ -47,7 +47,7 @@ function b_myconference_show($options)
         $section['title']    = _MB_MYCONFERENCE_PROGRAM;
         $block['sections'][] = $section;
         $rv                  = $xoopsDB->query('SELECT sid, title FROM ' . $xoopsDB->prefix('myconference_sections') . " WHERE cid=$cid ORDER BY title");
-        while (list($sid, $title) = $xoopsDB->fetchRow($rv)) {
+        while (false !== (list($sid, $title) = $xoopsDB->fetchRow($rv))) {
             $section['sid']      = $sid;
             $section['title']    = $title;
             $block['sections'][] = $section;

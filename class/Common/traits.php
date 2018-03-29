@@ -17,7 +17,7 @@ trait VersionChecks
      * @param null|string $requiredVer
      * @return bool true if meets requirements, false if not
      */
-    public static function checkVerXoops(XoopsModule $module = null, $requiredVer = null)
+    public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)
     {
         $moduleDirName = basename(dirname(__DIR__));
         if (null === $module) {
@@ -48,7 +48,7 @@ trait VersionChecks
      *
      * @return bool true if meets requirements, false if not
      */
-    public static function checkVerPhp(XoopsModule $module)
+    public static function checkVerPhp(\XoopsModule $module)
     {
         xoops_loadLanguage('admin', $module->dirname());
         // check for minimum PHP version

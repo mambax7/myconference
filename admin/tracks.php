@@ -22,7 +22,7 @@ use Xmf\Request;
 
 include __DIR__ . '/admin_header.php';
 include __DIR__ . '/conference.php';
-include_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
+require_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
 
 $myts = \MyTextSanitizer::getInstance();
 
@@ -71,20 +71,20 @@ switch ($fct) {
 
             // Get the available congress
             $result = $xoopsDB->query('SELECT cid, title FROM ' . $xoopsDB->prefix('myconference_main') . ' ORDER BY Title ASC');// or $eh::show('0013');
-            $cid_select = new XoopsFormSelect(_AM_MYCONFERENCE_CONFERENCESTITLE, 'cid', $cid_v);
+            $cid_select = new \XoopsFormSelect(_AM_MYCONFERENCE_CONFERENCESTITLE, 'cid', $cid_v);
             $cid_select->addOption(0, _AM_MYCONFERENCE_NONE);
-            while (list($cid, $title) = $xoopsDB->fetchRow($result)) {
+            while (false !== (list($cid, $title) = $xoopsDB->fetchRow($result))) {
                 $cid_select->addOption($cid, $title);
             }
 
-            $title   = new XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 100, $title_v);
-            $fct     = new XoopsFormHidden('fct', 'updtrack');
-            $tid     = new XoopsFormHidden('tid', $tid);
-            $summary = new XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
+            $title   = new \XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 100, $title_v);
+            $fct     = new \XoopsFormHidden('fct', 'updtrack');
+            $tid     = new \XoopsFormHidden('tid', $tid);
+            $summary = new \XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
             $summary->setValue($summary_v);
-            $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_UPDATE, 'submit');
+            $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_UPDATE, 'submit');
 
-            $form = new XoopsThemeForm(_AM_MYCONFERENCE_UPDTRACK, 'edittrackform', 'tracks.php');
+            $form = new \XoopsThemeForm(_AM_MYCONFERENCE_UPDTRACK, 'edittrackform', 'tracks.php');
             $form->addElement($title, true);
             $form->addElement($cid_select);
             $form->addElement($summary);
@@ -126,17 +126,17 @@ switch ($fct) {
         xoops_cp_header();
         // Get available tracks for the Update/Delete form
         $result = $xoopsDB->query('SELECT tid, title FROM ' . $xoopsDB->prefix('myconference_tracks') . ' ORDER BY title ASC');// or $eh::show('0013');
-        $track_select = new XoopsFormSelect(_AM_MYCONFERENCE_TITLE, 'tid');
-        while (list($tid, $title) = $xoopsDB->fetchRow($result)) {
+        $track_select = new \XoopsFormSelect(_AM_MYCONFERENCE_TITLE, 'tid');
+        while (false !== (list($tid, $title) = $xoopsDB->fetchRow($result))) {
             $track_select->addOption($tid, $title);
         }
-        $action_select = new XoopsFormSelect(_AM_MYCONFERENCE_ACTION, 'action');
+        $action_select = new \XoopsFormSelect(_AM_MYCONFERENCE_ACTION, 'action');
         $action_select->addOption('upd', _AM_MYCONFERENCE_EDIT);
         $action_select->addOption('del', _AM_MYCONFERENCE_DELE);
-        $fct           = new XoopsFormHidden('fct', 'edittrack');
-        $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_SUBMIT, 'submit');
+        $fct           = new \XoopsFormHidden('fct', 'edittrack');
+        $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_SUBMIT, 'submit');
 
-        $editform = new XoopsThemeForm(_AM_MYCONFERENCE_EDITTRACK, 'edittrackform', 'tracks.php');
+        $editform = new \XoopsThemeForm(_AM_MYCONFERENCE_EDITTRACK, 'edittrackform', 'tracks.php');
         $editform->addElement($fct);
         $editform->addElement($track_select);
         $editform->addElement($action_select);
@@ -144,20 +144,20 @@ switch ($fct) {
 
         $editform->display();
 
-        $title         = new XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 100);
-        $fct           = new XoopsFormHidden('fct', 'addtrack');
-        $summary       = new XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
-        $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_ADD, 'submit');
+        $title         = new \XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 100);
+        $fct           = new \XoopsFormHidden('fct', 'addtrack');
+        $summary       = new \XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
+        $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_ADD, 'submit');
 
         // Get the available congress
         $result = $xoopsDB->query('SELECT cid, title FROM ' . $xoopsDB->prefix('myconference_main') . ' ORDER BY Title ASC');// or $eh::show('0013');
-        $cid_select = new XoopsFormSelect(_AM_MYCONFERENCE_CONFERENCESTITLE, 'cid', $cid_v);
+        $cid_select = new \XoopsFormSelect(_AM_MYCONFERENCE_CONFERENCESTITLE, 'cid', $cid_v);
         $cid_select->addOption(0, _AM_MYCONFERENCE_NONE);
-        while (list($cid, $cid_title) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($cid, $cid_title) = $xoopsDB->fetchRow($result))) {
             $cid_select->addOption($cid, $cid_title);
         }
 
-        $form = new XoopsThemeForm(_AM_MYCONFERENCE_ADDTRACK, 'addtrackform', 'tracks.php');
+        $form = new \XoopsThemeForm(_AM_MYCONFERENCE_ADDTRACK, 'addtrackform', 'tracks.php');
         $form->addElement($title, true);
         $form->addElement($cid_select);
         $form->addElement($summary);

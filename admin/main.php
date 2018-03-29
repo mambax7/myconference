@@ -22,7 +22,7 @@ use Xmf\Request;
 
 include __DIR__ . '/admin_header.php';
 include __DIR__ . '/conference.php';
-include_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
+require_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
 
 $myts = \MyTextSanitizer::getInstance();
 
@@ -77,20 +77,20 @@ switch ($fct) {
             $result = $xoopsDB->query('SELECT isdefault,title,subtitle,subsubtitle,sdate,edate,summary FROM ' . $xoopsDB->prefix('myconference_main') . " WHERE cid=$cid");// or $eh::show('0013');
             list($isdefault_v, $title_v, $subtitle_v, $subsubtitle_v, $sdate_v, $edate_v, $summary_v) = $xoopsDB->fetchRow($result);
 
-            $title       = new XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 200, $title_v);
-            $isdefault   = new XoopsFormRadioYN(_AM_MYCONFERENCE_ISDEFAULT, 'isdefault', $isdefault_v);
-            $subtitle    = new XoopsFormText(_AM_MYCONFERENCE_SUBTITLE, 'subtitle', 50, 200, $subtitle_v);
-            $subsubtitle = new XoopsFormText(_AM_MYCONFERENCE_SUBSUBTITLE, 'subsubtitle', 50, 200, $subsubtitle_v);
-            $sdate       = new XoopsFormTextDateSelect(_AM_MYCONFERENCE_SDATE, 'sdate', 10, strtotime($sdate_v));
-            $edate       = new XoopsFormTextDateSelect(_AM_MYCONFERENCE_SDATE, 'edate', 10, strtotime($edate_v));
+            $title       = new \XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 200, $title_v);
+            $isdefault   = new \XoopsFormRadioYN(_AM_MYCONFERENCE_ISDEFAULT, 'isdefault', $isdefault_v);
+            $subtitle    = new \XoopsFormText(_AM_MYCONFERENCE_SUBTITLE, 'subtitle', 50, 200, $subtitle_v);
+            $subsubtitle = new \XoopsFormText(_AM_MYCONFERENCE_SUBSUBTITLE, 'subsubtitle', 50, 200, $subsubtitle_v);
+            $sdate       = new \XoopsFormTextDateSelect(_AM_MYCONFERENCE_SDATE, 'sdate', 10, strtotime($sdate_v));
+            $edate       = new \XoopsFormTextDateSelect(_AM_MYCONFERENCE_SDATE, 'edate', 10, strtotime($edate_v));
 
-            $fct     = new XoopsFormHidden('fct', 'updconference');
-            $cid     = new XoopsFormHidden('cid', $cid);
-            $summary = new XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
+            $fct     = new \XoopsFormHidden('fct', 'updconference');
+            $cid     = new \XoopsFormHidden('cid', $cid);
+            $summary = new \XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
             $summary->setValue($summary_v);
-            $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_UPDATE, 'submit');
+            $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_UPDATE, 'submit');
 
-            $form = new XoopsThemeForm(_AM_MYCONFERENCE_UPDCONFERENCE, '', 'main.php');
+            $form = new \XoopsThemeForm(_AM_MYCONFERENCE_UPDCONFERENCE, '', 'main.php');
             $form->addElement($title, true);
             $form->addElement($isdefault);
             $form->addElement($subtitle);
@@ -145,17 +145,17 @@ switch ($fct) {
 
         // Get available conference for the Update/Delete form
         $result = $xoopsDB->query('SELECT cid, title FROM ' . $xoopsDB->prefix('myconference_main') . ' ORDER BY title ASC');// or $eh::show('0013');
-        $conference_select = new XoopsFormSelect(_AM_MYCONFERENCE_TITLE, 'cid');
-        while (list($cid, $title) = $xoopsDB->fetchRow($result)) {
+        $conference_select = new \XoopsFormSelect(_AM_MYCONFERENCE_TITLE, 'cid');
+        while (false !== (list($cid, $title) = $xoopsDB->fetchRow($result))) {
             $conference_select->addOption($cid, $title);
         }
-        $action_select = new XoopsFormSelect(_AM_MYCONFERENCE_ACTION, 'action');
+        $action_select = new \XoopsFormSelect(_AM_MYCONFERENCE_ACTION, 'action');
         $action_select->addOption('upd', _AM_MYCONFERENCE_EDIT);
         $action_select->addOption('del', _AM_MYCONFERENCE_DELE);
-        $fct           = new XoopsFormHidden('fct', 'editconference');
-        $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_SUBMIT, 'submit');
+        $fct           = new \XoopsFormHidden('fct', 'editconference');
+        $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_SUBMIT, 'submit');
 
-        $editform = new XoopsThemeForm(_AM_MYCONFERENCE_EDITCONFERENCE, '', 'main.php');
+        $editform = new \XoopsThemeForm(_AM_MYCONFERENCE_EDITCONFERENCE, '', 'main.php');
         $editform->addElement($fct);
         $editform->addElement($conference_select);
         $editform->addElement($action_select);
@@ -163,18 +163,18 @@ switch ($fct) {
 
         $editform->display();
 
-        $title         = new XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 200);
-        $isdefault     = new XoopsFormRadioYN(_AM_MYCONFERENCE_ISDEFAULT, 'isdefault', 0);
-        $subtitle      = new XoopsFormText(_AM_MYCONFERENCE_SUBTITLE, 'subtitle', 50, 200);
-        $subsubtitle   = new XoopsFormText(_AM_MYCONFERENCE_SUBSUBTITLE, 'subsubtitle', 50, 200);
-        $sdate         = new XoopsFormTextDateSelect(_AM_MYCONFERENCE_SDATE, 'sdate', 10, time());
-        $edate         = new XoopsFormTextDateSelect(_AM_MYCONFERENCE_EDATE, 'edate', 10, time());
-        $fct           = new XoopsFormHidden('fct', 'addconference');
-        $cid           = new XoopsFormHidden('cid', $cid);
-        $summary       = new XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
-        $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_ADD, 'submit');
+        $title         = new \XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 200);
+        $isdefault     = new \XoopsFormRadioYN(_AM_MYCONFERENCE_ISDEFAULT, 'isdefault', 0);
+        $subtitle      = new \XoopsFormText(_AM_MYCONFERENCE_SUBTITLE, 'subtitle', 50, 200);
+        $subsubtitle   = new \XoopsFormText(_AM_MYCONFERENCE_SUBSUBTITLE, 'subsubtitle', 50, 200);
+        $sdate         = new \XoopsFormTextDateSelect(_AM_MYCONFERENCE_SDATE, 'sdate', 10, time());
+        $edate         = new \XoopsFormTextDateSelect(_AM_MYCONFERENCE_EDATE, 'edate', 10, time());
+        $fct           = new \XoopsFormHidden('fct', 'addconference');
+        $cid           = new \XoopsFormHidden('cid', $cid);
+        $summary       = new \XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
+        $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_ADD, 'submit');
 
-        $form = new XoopsThemeForm(_AM_MYCONFERENCE_ADDCONFERENCE, '', 'main.php');
+        $form = new \XoopsThemeForm(_AM_MYCONFERENCE_ADDCONFERENCE, '', 'main.php');
         $form->addElement($title, true);
         $form->addElement($isdefault);
         $form->addElement($subtitle);

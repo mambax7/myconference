@@ -16,7 +16,7 @@
  * @return bool true if ready to uninstall, false if not
  */
 
-function xoops_module_pre_uninstall_myconference(XoopsModule $module)
+function xoops_module_pre_uninstall_myconference(\XoopsModule $module)
 {
     // Do some synchronization
     return true;
@@ -29,7 +29,7 @@ function xoops_module_pre_uninstall_myconference(XoopsModule $module)
  *
  * @return bool true if uninstallation successful, false if not
  */
-function xoops_module_uninstall_myconference(XoopsModule $module)
+function xoops_module_uninstall_myconference(\XoopsModule $module)
 {
     return true;
 }
@@ -40,14 +40,14 @@ function xoops_module_uninstall_myconference(XoopsModule $module)
 
 
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+// defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * @param XoopsModule $module
  *
  * @return bool
  */
-function xoops_module_uninstall_XXXX(XoopsModule $module)
+function xoops_module_uninstall_XXXX(\XoopsModule $module)
 {
     // global $xoopsDB,$xoopsConfig;
     //
@@ -93,7 +93,7 @@ function rmdirr($dirname)
     $dir = dir($dirname);
     while (false !== $entry = $dir->read()) {
         // Skip pointers
-        if ('.' == $entry || '..' == $entry) {
+        if ('.' === $entry || '..' === $entry) {
             continue;
         }
 

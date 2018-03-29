@@ -19,10 +19,13 @@
 // ------------------------------------------------------------------------- //
 
 use Xmf\Request;
+use XoopsModules\Myconference;
+/** @var Myconference\Helper $helper */
+$helper = Myconference\Helper::getInstance();
 
 include __DIR__ . '/admin_header.php';
 include __DIR__ . '/conference.php';
-include_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
+require_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
 
 $myts = \MyTextSanitizer::getInstance();
 
@@ -96,41 +99,41 @@ switch ($fct) {
             $result = $xoopsDB->query('SELECT name,email,company,location,url,photo,descrip FROM ' . $xoopsDB->prefix('myconference_speakers') . " WHERE speakerid=$speakerid");// or $eh::show('0013');
             list($name_v, $email_v, $company_v, $location_v, $url_v, $photo_v, $minibio_v) = $xoopsDB->fetchRow($result);
 
-            $name      = new XoopsFormText(_AM_MYCONFERENCE_NAME, 'speakerName', 50, 100, $name_v);
-            $email     = new XoopsFormText(_AM_MYCONFERENCE_EMAIL, 'speakerEmail', 50, 100, $email_v);
-            $company   = new XoopsFormText(_AM_MYCONFERENCE_COMPANY, 'speakerCompanyName', 50, 100, $company_v);
-            $location  = new XoopsFormText(_AM_MYCONFERENCE_LOCATION, 'speakerCompanyLocation', 50, 100, $location_v);
-            $url       = new XoopsFormText(_AM_MYCONFERENCE_URL, 'speakerSite', 50, 100, $url_v);
-            $fct       = new XoopsFormHidden('fct', 'updspeaker');
-            $speakerid = new XoopsFormHidden('speakerid', $speakerid);
+            $name      = new \XoopsFormText(_AM_MYCONFERENCE_NAME, 'speakerName', 50, 100, $name_v);
+            $email     = new \XoopsFormText(_AM_MYCONFERENCE_EMAIL, 'speakerEmail', 50, 100, $email_v);
+            $company   = new \XoopsFormText(_AM_MYCONFERENCE_COMPANY, 'speakerCompanyName', 50, 100, $company_v);
+            $location  = new \XoopsFormText(_AM_MYCONFERENCE_LOCATION, 'speakerCompanyLocation', 50, 100, $location_v);
+            $url       = new \XoopsFormText(_AM_MYCONFERENCE_URL, 'speakerSite', 50, 100, $url_v);
+            $fct       = new \XoopsFormHidden('fct', 'updspeaker');
+            $speakerid = new \XoopsFormHidden('speakerid', $speakerid);
 
-            $photo = new XoopsFormFile('', 'speakersPhoto', 1000000);
+            $photo = new \XoopsFormFile('', 'speakersPhoto', 1000000);
 
 //            $uploadirectory = MYCONFERENCE_UPLOAD_PATH . '/images';
             $uploadirectory =  MYCONFERENCE_UPLOAD_URL .'/images';
 
-            $photo_label = new XoopsFormLabel('', '<img src="' . $uploadirectory . '/' . $photo_v . '" alt="" valign="top" align="right" />');
-            $photo_tray  = new XoopsFormElementTray(_AM_MYCONFERENCE_PHOTO_WARN, '&nbsp;');
+            $photo_label = new \XoopsFormLabel('', '<img src="' . $uploadirectory . '/' . $photo_v . '" alt="" valign="top" align="right" />');
+            $photo_tray  = new \XoopsFormElementTray(_AM_MYCONFERENCE_PHOTO_WARN, '&nbsp;');
             $photo_tray->addElement($photo);
             $photo_tray->addElement($photo_label);
 
             //            if ( $edit && trim($item->getVar('birthday_photo')) != '' && $item->pictureExists() ) {
 
-            $pictureTray = new XoopsFormElementTray(_AM_MYCONFERENCE_CURRENT_PICTURE, '<br>');
-            //          $pictureTray->addElement(new XoopsFormLabel('', "<img src='".$item->getPictureUrl()."' alt='' border='0' />"));
-            $pictureTray->addElement(new XoopsFormLabel('', "<img src='" .$uploadirectory . '/' . $photo_v . "' alt='' border='0' />"));
-            $deleteCheckbox = new XoopsFormCheckBox('', 'delpicture');
+            $pictureTray = new \XoopsFormElementTray(_AM_MYCONFERENCE_CURRENT_PICTURE, '<br>');
+            //          $pictureTray->addElement(new \XoopsFormLabel('', "<img src='".$item->getPictureUrl()."' alt='' border='0' />"));
+            $pictureTray->addElement(new \XoopsFormLabel('', "<img src='" .$uploadirectory . '/' . $photo_v . "' alt='' border='0' />"));
+            $deleteCheckbox = new \XoopsFormCheckBox('', 'delpicture');
             $deleteCheckbox->addOption(1, _DELETE);
             $pictureTray->addElement($deleteCheckbox);
             /*          $form->addElement($pictureTray);
                         unset($pictureTray, $deleteCheckbox);*/
             //}
 
-            $minibio = new XoopsFormTextArea(_AM_MYCONFERENCE_MINI_BIO, 'speakerMiniBio', '', 25, 100);
+            $minibio = new \XoopsFormTextArea(_AM_MYCONFERENCE_MINI_BIO, 'speakerMiniBio', '', 25, 100);
             $minibio->setValue($minibio_v);
-            $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_UPDATE, 'submit');
+            $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_UPDATE, 'submit');
 
-            $form = new XoopsThemeForm(_AM_MYCONFERENCE_UPD_SPEAKER, 'editspeakerform', 'speakers.php');
+            $form = new \XoopsThemeForm(_AM_MYCONFERENCE_UPD_SPEAKER, 'editspeakerform', 'speakers.php');
             $form->setExtra('enctype="multipart/form-data"');
             $form->addElement($name, true);
             $form->addElement($email);
@@ -144,7 +147,7 @@ switch ($fct) {
 
             $form->addElement($pictureTray);
             unset($pictureTray, $deleteCheckbox);
-            $form->addElement(new XoopsFormFile(_AM_MYCONFERENCE_PICTURE, 'attachedfile', $xoopsModuleConfig['max_imgsize']), false);
+            $form->addElement(new \XoopsFormFile(_AM_MYCONFERENCE_PICTURE, 'attachedfile', $helper->getConfig('max_imgsize')), false);
 
             $form->addElement($submit_button);
 
@@ -198,17 +201,17 @@ switch ($fct) {
         xoops_cp_header();
 
         $result = $xoopsDB->query('SELECT speakerid, name FROM ' . $xoopsDB->prefix('myconference_speakers') . ' ORDER BY Name ASC');// or $eh::show('0013');
-        $speakerSelect = new XoopsFormSelect(_AM_MYCONFERENCE_NAME, 'speakerid');
-        while (list($speakerid, $name) = $xoopsDB->fetchRow($result)) {
+        $speakerSelect = new \XoopsFormSelect(_AM_MYCONFERENCE_NAME, 'speakerid');
+        while (false !== (list($speakerid, $name) = $xoopsDB->fetchRow($result))) {
             $speakerSelect->addOption($speakerid, $name);
         }
-        $action_select = new XoopsFormSelect(_AM_MYCONFERENCE_ACTION, 'action');
+        $action_select = new \XoopsFormSelect(_AM_MYCONFERENCE_ACTION, 'action');
         $action_select->addOption('upd', _AM_MYCONFERENCE_EDIT);
         $action_select->addOption('del', _AM_MYCONFERENCE_DELE);
-        $fct           = new XoopsFormHidden('fct', 'editspeaker');
-        $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_SUBMIT, 'submit');
+        $fct           = new \XoopsFormHidden('fct', 'editspeaker');
+        $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_SUBMIT, 'submit');
 
-        $editform = new XoopsThemeForm(_AM_MYCONFERENCE_EDIT_SPEAKER, 'editspeakerform', 'speakers.php');
+        $editform = new \XoopsThemeForm(_AM_MYCONFERENCE_EDIT_SPEAKER, 'editspeakerform', 'speakers.php');
         $editform->addElement($fct);
         $editform->addElement($speakerSelect);
         $editform->addElement($action_select);
@@ -216,18 +219,18 @@ switch ($fct) {
 
         $editform->display();
 
-        $name     = new XoopsFormText(_AM_MYCONFERENCE_NAME, 'speakerName', 50, 100);
-        $email    = new XoopsFormText(_AM_MYCONFERENCE_EMAIL, 'speakerEmail', 50, 100);
-        $company  = new XoopsFormText(_AM_MYCONFERENCE_COMPANY, 'speakerCompanyName', 50, 100);
-        $location = new XoopsFormText(_AM_MYCONFERENCE_LOCATION, 'speakerCompanyLocation', 50, 100);
-        $url      = new XoopsFormText(_AM_MYCONFERENCE_URL, 'speakerSite', 50, 100);
-        $fct      = new XoopsFormHidden('fct', 'addspeaker');
+        $name     = new \XoopsFormText(_AM_MYCONFERENCE_NAME, 'speakerName', 50, 100);
+        $email    = new \XoopsFormText(_AM_MYCONFERENCE_EMAIL, 'speakerEmail', 50, 100);
+        $company  = new \XoopsFormText(_AM_MYCONFERENCE_COMPANY, 'speakerCompanyName', 50, 100);
+        $location = new \XoopsFormText(_AM_MYCONFERENCE_LOCATION, 'speakerCompanyLocation', 50, 100);
+        $url      = new \XoopsFormText(_AM_MYCONFERENCE_URL, 'speakerSite', 50, 100);
+        $fct      = new \XoopsFormHidden('fct', 'addspeaker');
 
-        $photo         = new XoopsFormFile(_AM_MYCONFERENCE_PHOTO, 'speakersPhoto', 1000000);
-        $minibio       = new XoopsFormTextArea(_AM_MYCONFERENCE_MINI_BIO, 'speakerMiniBio', '', 25, 100);
-        $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_SUBMIT, 'submit');
+        $photo         = new \XoopsFormFile(_AM_MYCONFERENCE_PHOTO, 'speakersPhoto', 1000000);
+        $minibio       = new \XoopsFormTextArea(_AM_MYCONFERENCE_MINI_BIO, 'speakerMiniBio', '', 25, 100);
+        $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_SUBMIT, 'submit');
 
-        $form = new XoopsThemeForm(_AM_MYCONFERENCE_ADD_SPEAKER, 'addspeakerform', 'speakers.php');
+        $form = new \XoopsThemeForm(_AM_MYCONFERENCE_ADD_SPEAKER, 'addspeakerform', 'speakers.php');
         $form->setExtra('enctype="multipart/form-data"');
         $form->addElement($name, true);
         $form->addElement($email);
@@ -236,7 +239,7 @@ switch ($fct) {
         $form->addElement($location);
         $form->addElement($minibio, true);
         $form->addElement($photo);
-        $form->addElement(new XoopsFormFile(_AM_MYCONFERENCE_PICUPLOAD, 'filename', $xoopsModuleConfig['max_imgsize']), true);
+        $form->addElement(new \XoopsFormFile(_AM_MYCONFERENCE_PICUPLOAD, 'filename', $helper->getConfig('max_imgsize')), true);
 
         $form->addElement($fct);
         $form->addElement($submit_button);

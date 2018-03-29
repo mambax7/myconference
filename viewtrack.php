@@ -57,7 +57,7 @@ if (isset($cid)) {
 $result = $xoopsDB->query('SELECT sid, title FROM ' . $xoopsDB->prefix('myconference_sections') . " WHERE cid=$cid ORDER BY title");// or $eh::show('0013');
 
 $count = 1;
-while ($section = $xoopsDB->fetchArray($result)) {
+while (false !== ($section = $xoopsDB->fetchArray($result))) {
     $xoopsTpl->append('sections', ['id' => $section['sid'], 'title' => $section['title'], 'count' => $count]);
     ++$count;
 }

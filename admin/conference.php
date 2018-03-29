@@ -20,7 +20,7 @@
 
 function getFile($file)
 {
-    include_once XOOPS_ROOT_PATH . '/class/uploader.php';
+    require_once XOOPS_ROOT_PATH . '/class/uploader.php';
     $mimetypes = [
         'image/gif',
         'image/jpeg',
@@ -64,7 +64,7 @@ function getFile($file)
         'audio/mpeg'
     ];
 
-    $uploader = new XoopsMediaUploader(MYCONFERENCE_UPLOAD_PATH .'/images', $mimetypes, 1000000, 1000, 1000);
+    $uploader = new \XoopsMediaUploader(MYCONFERENCE_UPLOAD_PATH .'/images', $mimetypes, 1000000, 1000, 1000);
     $uploader->setPrefix('cnfr');
     if ($uploader->fetchMedia($file)) {
         if (!$uploader->upload()) {
@@ -87,12 +87,12 @@ function getFile($file)
 
 function XoopsFormDateTimeI($caption, $name, $size = 15, $value = 0, $interval = 10)
 {
-    $fe       = new XoopsFormElementTray($caption, '&nbsp;');
+    $fe       = new \XoopsFormElementTray($caption, '&nbsp;');
     $value    = (int)$value;
     $interval = (int)$interval;
     $value    = ($value > 0) ? $value : time();
     $datetime = getdate($value);
-    $fe->addElement(new XoopsFormTextDateSelect('', $name . '[date]', $size, $value));
+    $fe->addElement(new \XoopsFormTextDateSelect('', $name . '[date]', $size, $value));
     $timearray = [];
     for ($i = 0; $i < 24; ++$i) {
         for ($j = 0; $j < 60; $j += $interval) {
@@ -101,7 +101,7 @@ function XoopsFormDateTimeI($caption, $name, $size = 15, $value = 0, $interval =
         }
     }
     ksort($timearray);
-    $timeselect = new XoopsFormSelect('', $name . '[time]', $datetime['hours'] * 3600 + 600 * ceil($datetime['minutes'] / 10));
+    $timeselect = new \XoopsFormSelect('', $name . '[time]', $datetime['hours'] * 3600 + 600 * ceil($datetime['minutes'] / 10));
     $timeselect->addOptionArray($timearray);
     $fe->addElement($timeselect);
 

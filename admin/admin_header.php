@@ -16,6 +16,9 @@
  * @since
  * @author       XOOPS Development Team
  */
+
+use XoopsModules\Myconference;
+
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once __DIR__ . '/../../../class/xoopsformloader.php';
 
@@ -24,7 +27,7 @@ require_once __DIR__ . '/../../../class/xoopsformloader.php';
 
 
 $moduleDirName = basename(dirname(__DIR__));
-$helper = \Xmf\Module\Helper::getHelper($moduleDirName);
+$helper = Myconference\Helper::getInstance();
 /** @var Xmf\Module\Admin $adminObject */
 $adminObject = \Xmf\Module\Admin::getInstance();
 
@@ -48,5 +51,5 @@ $myts = \MyTextSanitizer::getInstance();
 
 if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
     require_once $GLOBALS['xoops']->path('class/template.php');
-    $xoopsTpl = new XoopsTpl();
+    $xoopsTpl = new \XoopsTpl();
 }

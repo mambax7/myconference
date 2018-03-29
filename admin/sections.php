@@ -22,7 +22,7 @@ use Xmf\Request;
 
 include __DIR__ . '/admin_header.php';
 include __DIR__ . '/conference.php';
-include_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
+require_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
 
 $myts = \MyTextSanitizer::getInstance();
 
@@ -70,21 +70,21 @@ switch ($fct) {
 
             list($title_v, $cid_v, $summary_v) = $xoopsDB->fetchRow($result);
 
-            $title = new XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 100, $title_v);
+            $title = new \XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 100, $title_v);
             // Get all congresses defined
             $result = $xoopsDB->query('SELECT cid, title FROM ' . $xoopsDB->prefix('myconference_main') . ' ORDER BY title ASC');// or $eh::show('0013');
-            $conferences_select = new XoopsFormSelect(_AM_MYCONFERENCE_CONGRESS, 'cid', $cid_v);
-            while (list($cid, $ctitle) = $xoopsDB->fetchRow($result)) {
+            $conferences_select = new \XoopsFormSelect(_AM_MYCONFERENCE_CONGRESS, 'cid', $cid_v);
+            while (false !== (list($cid, $ctitle) = $xoopsDB->fetchRow($result))) {
                 $conferences_select->addOption($cid, $ctitle);
             }
 
-            $fct     = new XoopsFormHidden('fct', 'updsection');
-            $sid     = new XoopsFormHidden('sid', $sid);
-            $summary = new XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
+            $fct     = new \XoopsFormHidden('fct', 'updsection');
+            $sid     = new \XoopsFormHidden('sid', $sid);
+            $summary = new \XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
             $summary->setValue($summary_v);
-            $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_UPDATE, 'submit');
+            $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_UPDATE, 'submit');
 
-            $form = new XoopsThemeForm(_AM_MYCONFERENCE_UPDSECTION, 'editsectionform', 'sections.php');
+            $form = new \XoopsThemeForm(_AM_MYCONFERENCE_UPDSECTION, 'editsectionform', 'sections.php');
             $form->addElement($title, true);
             $form->addElement($conferences_select, true);
             $form->addElement($summary);
@@ -128,19 +128,19 @@ switch ($fct) {
 
         // Get available sections for the Update/Delete form
         $result = $xoopsDB->query('SELECT sid, title FROM ' . $xoopsDB->prefix('myconference_sections') . ' ORDER BY title ASC');// or $eh::show('0013');
-        $section_select = new XoopsFormSelect(_AM_MYCONFERENCE_TITLE, 'sid');
-        while (list($sid, $title) = $xoopsDB->fetchRow($result)) {
+        $section_select = new \XoopsFormSelect(_AM_MYCONFERENCE_TITLE, 'sid');
+        while (false !== (list($sid, $title) = $xoopsDB->fetchRow($result))) {
             $section_select->addOption($sid, $title);
         }
         //set two actions: Edit and Delete
-        $action_select = new XoopsFormSelect(_AM_MYCONFERENCE_ACTION, 'action');
+        $action_select = new \XoopsFormSelect(_AM_MYCONFERENCE_ACTION, 'action');
         $action_select->addOption('upd', _AM_MYCONFERENCE_EDIT);
         $action_select->addOption('del', _AM_MYCONFERENCE_DELE);
-        $fct           = new XoopsFormHidden('fct', 'editsection');
-        $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_SUBMIT, 'submit');
+        $fct           = new \XoopsFormHidden('fct', 'editsection');
+        $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_SUBMIT, 'submit');
 
         // if editing
-        $editform = new XoopsThemeForm(_AM_MYCONFERENCE_EDITSECTION, 'editsectionform', 'sections.php');
+        $editform = new \XoopsThemeForm(_AM_MYCONFERENCE_EDITSECTION, 'editsectionform', 'sections.php');
         $editform->addElement($fct);
         $editform->addElement($section_select);
         $editform->addElement($action_select);
@@ -150,18 +150,18 @@ switch ($fct) {
 
         //----------------- add new -----------------
 
-        $title         = new XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 100);
-        $fct           = new XoopsFormHidden('fct', 'addsection');
-        $summary       = new XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
-        $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_ADD, 'submit');
+        $title         = new \XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 100);
+        $fct           = new \XoopsFormHidden('fct', 'addsection');
+        $summary       = new \XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
+        $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_ADD, 'submit');
         // Get all congresses defined
         $result = $xoopsDB->query('SELECT cid, title FROM ' . $xoopsDB->prefix('myconference_main') . ' ORDER BY title ASC');// or $eh::show('0013');
-        $conferences_select = new XoopsFormSelect(_AM_MYCONFERENCE_CONGRESS, 'cid');
-        while (list($cid, $ctitle) = $xoopsDB->fetchRow($result)) {
+        $conferences_select = new \XoopsFormSelect(_AM_MYCONFERENCE_CONGRESS, 'cid');
+        while (false !== (list($cid, $ctitle) = $xoopsDB->fetchRow($result))) {
             $conferences_select->addOption($cid, $ctitle);
         }
 
-        $form = new XoopsThemeForm(_AM_MYCONFERENCE_ADDSECTION, 'addsectionform', 'sections.php');
+        $form = new \XoopsThemeForm(_AM_MYCONFERENCE_ADDSECTION, 'addsectionform', 'sections.php');
         $form->addElement($title, true);
         $form->addElement($conferences_select, true);
         $form->addElement($summary);

@@ -42,7 +42,7 @@ $myts = \MyTextSanitizer::getInstance();
 
 //global $xoopsDB;
 
-//$xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
+//$xoopsDB = \XoopsDatabaseFactory::getDatabaseConnection();
 $cid = Request::getInt('cid', Request::getInt('cid', 0, 'GET'), 'POST');
 
 if (0 === $cid) {
@@ -71,7 +71,7 @@ if (isset($cid) && $cid  > 0) {
     $result = $xoopsDB->query('SELECT sid, title FROM ' . $xoopsDB->prefix('myconference_sections') . " WHERE cid=$cid ORDER BY title");// or $eh::show('0013');
 
     $count = 1;
-    while ($section = $xoopsDB->fetchArray($result)) {
+    while (false !== ($section = $xoopsDB->fetchArray($result))) {
         $xoopsTpl->append('sections', ['id' => $section['sid'], 'title' => $section['title'], 'count' => $count]);
         ++$count;
     }

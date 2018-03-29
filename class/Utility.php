@@ -3,7 +3,6 @@
 use Xmf\Request;
 use XoopsModules\Myconference\Common;
 
-
 $moduleDirName = basename(dirname(__DIR__));
 require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/common.php");
 //require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/class/field.php");
@@ -27,11 +26,11 @@ $moduleConfig  = $configHandler->getConfigsByCat(0, $module->getVar('mid'));
  */
 class Utility
 {
-    use common\VersionChecks; //checkVerXoops, checkVerPhp Traits
+    use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
 
-    use common\ServerStats; // getServerStats Trait
+    use Common\ServerStats; // getServerStats Trait
 
-    use common\FilesManagement; // Files Management Trait
+    use Common\FilesManagement; // Files Management Trait
 
 
 
@@ -68,10 +67,10 @@ class Utility
         $allowed_mimetypes = ['image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png'];
         //    $img_dir = XOOPS_ROOT_PATH . "/modules/" . $GLOBALS['xoopsModule']->dirname() . "/images" ;
         $img_dir = $GLOBALS['xoopsModuleConfig']['uploaddir'] . '/images';
-        include_once $GLOBALS['xoops']->path('class/uploader.php');
+        require_once $GLOBALS['xoops']->path('class/uploader.php');
         $field = $_POST['xoops_upload_file'][$num];
         if (!empty($field) || '' != $field) {
-            $uploader = new XoopsMediaUploader($img_dir, $allowed_mimetypes, $max_imgsize, $max_imgwidth, $max_imgheight);
+            $uploader = new \XoopsMediaUploader($img_dir, $allowed_mimetypes, $max_imgsize, $max_imgwidth, $max_imgheight);
             $uploader->setPrefix('img');
             if ($uploader->fetchMedia($field) && $uploader->upload()) {
                 $photo = $uploader->getSavedFileName();
@@ -264,11 +263,11 @@ class Utility
         }
         // Render output
         if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
-            include_once $GLOBALS['xoops']->path('class/theme.php');
-            $GLOBALS['xoTheme'] = new xos_opal_Theme();
+            require_once $GLOBALS['xoops']->path('class/theme.php');
+            $GLOBALS['xoTheme'] = new \xos_opal_Theme();
         }
         require_once $GLOBALS['xoops']->path('class/template.php');
-        $letterschoiceTpl          = new XoopsTpl();
+        $letterschoiceTpl          = new \XoopsTpl();
         $letterschoiceTpl->caching = false; // Disable cache
         $letterschoiceTpl->assign('alphabet', $alphabet_array);
         $html = $letterschoiceTpl->fetch('db:' . $pedigree->getModule()->dirname() . '_common_letterschoice.tpl');
@@ -288,7 +287,7 @@ class Utility
         //$alphabet       = XoopsLocal::getAlphabet();
         
 //        xoops_load('XoopsLocal');
-//        $xLocale        = new XoopsLocal;
+//        $xLocale        = new \XoopsLocal;
 //        $alphabet       = $xLocale->getAlphabet();
         $alphabet       = pedigreeGetAlphabet();
         $alphabet_array = [];
@@ -332,11 +331,11 @@ class Utility
 
         // Render output
         if (!isset($GLOBALS['xoTheme']) || !is_object($GLOBALS['xoTheme'])) {
-            include_once $GLOBALS['xoops']->path('class/theme.php');
-            $GLOBALS['xoTheme'] = new xos_opal_Theme();
+            require_once $GLOBALS['xoops']->path('class/theme.php');
+            $GLOBALS['xoTheme'] = new \xos_opal_Theme();
         }
         require_once $GLOBALS['xoops']->path('class/template.php');
-        $letterschoiceTpl          = new XoopsTpl();
+        $letterschoiceTpl          = new \XoopsTpl();
         $letterschoiceTpl->caching = false; // Disable cache
         $letterschoiceTpl->assign('alphabet', $alphabet_array);
         $html = $letterschoiceTpl->fetch('db:' . $myObject->getModule()->dirname() . '_common_letterschoice.tpl');
@@ -364,7 +363,7 @@ class Utility
     {
         $bRetVal = false;
         //Verifies that a MySQL table exists
-        $GLOBALS['xoopsDB'] = XoopsDatabaseFactory::getDatabaseConnection();
+        $GLOBALS['xoopsDB'] = \XoopsDatabaseFactory::getDatabaseConnection();
         $realName           = $GLOBALS['xoopsDB']->prefix($table);
 
         $sql = 'SHOW TABLES FROM ' . XOOPS_DB_NAME;

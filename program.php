@@ -78,7 +78,7 @@ $result = $xoopsDB->query('SELECT sid, title FROM ' . $xoopsDB->prefix('myconfer
 
 echo " <table class='outer' border='0' cellspacing='5' cellpadding='0' align='center' width='100%'> <tr>\n";
 $count = 1;
-while (list($sid, $title) = $xoopsDB->fetchRow($result)) {
+while (false !== (list($sid, $title) = $xoopsDB->fetchRow($result))) {
     echo '<td class="itemHead" valign="top" ><a href="' . XOOPS_URL . "/modules/myconference/index.php?sid=$sid\"><b>$title</b></a></td>";
 }
 echo '<td class="itemHead" valign="top" ><a href="' . XOOPS_URL . '/modules/myconference/program.php"><b>' . _MD_MYCONFERENCE_PROGRAM . '</b></a></td>';
@@ -98,7 +98,7 @@ for ($d = $sdate; $d <= $edate; $d += $oneday) {
     // Get tracks
     $t_result = $xoopsDB->query('SELECT tid, title FROM ' . $xoopsDB->prefix('myconference_tracks') . " WHERE cid=$cid order by tid");// or $eh::show("0013");
     $i        = 0;
-    while (list($tid, $tit) = $xoopsDB->fetchRow($t_result)) {
+    while (false !== (list($tid, $tit) = $xoopsDB->fetchRow($t_result))) {
         $tpos[$tid]  = ++$i;
         $title[$tid] = $tit;
     }
@@ -112,7 +112,7 @@ for ($d = $sdate; $d <= $edate; $d += $oneday) {
     $earliest = 9999999999;
     $oldest   = -1;
 
-    while (list($sid, $tid, $stime, $etime) = $xoopsDB->fetchRow($s_result)) {
+    while (false !== (list($sid, $tid, $stime, $etime) = $xoopsDB->fetchRow($s_result))) {
         $earliest = ($stime < $earliest) ? $stime : $earliest;
         $oldest   = ($etime > $oldest) ? $etime : $oldest;
     }
@@ -139,7 +139,7 @@ for ($d = $sdate; $d <= $edate; $d += $oneday) {
         $s_result = $xoopsDB->query('SELECT sid, tid, stime, duration FROM ' . $xoopsDB->prefix('myconference_speeches') . " WHERE cid=$cid AND $i BETWEEN stime AND etime ORDER BY stime, tid");// or $eh::show("0013");
         $printpos = [];
         $row      = [];
-        while (list($sid, $tid, $stime, $duration) = $xoopsDB->fetchRow($s_result)) {
+        while (false !== (list($sid, $tid, $stime, $duration) = $xoopsDB->fetchRow($s_result))) {
             //loop de tracks
             $etime = $stime + $duration * 60;
             foreach ($tpos as $k => $v) {

@@ -22,7 +22,7 @@ use Xmf\Request;
 
 include __DIR__ . '/admin_header.php';
 include __DIR__ . '/conference.php';
-include_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
+require_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
 
 $eh = new ErrorHandler;
 
@@ -95,43 +95,43 @@ switch ($fct) {
 
             // Get the available Speakers
             $result = $xoopsDB->query('SELECT speakerid, name FROM ' . $xoopsDB->prefix('myconference_speakers') . ' ORDER BY Name ASC');// or $eh::show('0013');
-            $speakerSelect = new XoopsFormSelect(_AM_MYCONFERENCE_SPEAKERSNAME, 'speakerid', $speakerid_v);
+            $speakerSelect = new \XoopsFormSelect(_AM_MYCONFERENCE_SPEAKERSNAME, 'speakerid', $speakerid_v);
             $speakerSelect->addOption(0, _AM_MYCONFERENCE_NONE);
-            while (list($speakerid, $name) = $xoopsDB->fetchRow($result)) {
+            while (false !== (list($speakerid, $name) = $xoopsDB->fetchRow($result))) {
                 $speakerSelect->addOption($speakerid, $name);
             }
 
             // Get the available congress
             $result = $xoopsDB->query('SELECT cid, title FROM ' . $xoopsDB->prefix('myconference_main') . ' ORDER BY Title ASC');// or $eh::show('0013');
-            $cid_select = new XoopsFormSelect(_AM_MYCONFERENCE_CONFERENCESTITLE, 'cid', $cid_v);
+            $cid_select = new \XoopsFormSelect(_AM_MYCONFERENCE_CONFERENCESTITLE, 'cid', $cid_v);
             $cid_select->addOption(0, _AM_MYCONFERENCE_NONE);
-            while (list($cid, $title) = $xoopsDB->fetchRow($result)) {
+            while (false !== (list($cid, $title) = $xoopsDB->fetchRow($result))) {
                 $cid_select->addOption($cid, $title);
             }
 
             // Get the available tracks
             $result = $xoopsDB->query('SELECT tid, title FROM ' . $xoopsDB->prefix('myconference_tracks') . ' ORDER BY Title ASC');// or $eh::show('0013');
-            $trk_select = new XoopsFormSelect(_AM_MYCONFERENCE_TRACKSTITLE, 'tid', $tid_v);
+            $trk_select = new \XoopsFormSelect(_AM_MYCONFERENCE_TRACKSTITLE, 'tid', $tid_v);
             $trk_select->addOption(0, _AM_MYCONFERENCE_NONE);
-            while (list($tid, $title) = $xoopsDB->fetchRow($result)) {
+            while (false !== (list($tid, $title) = $xoopsDB->fetchRow($result))) {
                 $trk_select->addOption($tid, $title);
             }
 
-            $title = new XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 100, $title_v);
-            // $stime = new XoopsFormText(_AM_MYCONFERENCE_STIME, "stime", 14, 16, date("Y-m-d H:i", $stime_v));
+            $title = new \XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 100, $title_v);
+            // $stime = new \XoopsFormText(_AM_MYCONFERENCE_STIME, "stime", 14, 16, date("Y-m-d H:i", $stime_v));
             $stime    = XoopsFormDateTimeI(_AM_MYCONFERENCE_STIME, 'stime', 10, $stime_v, 30);
-            $duration = new XoopsFormText(_AM_MYCONFERENCE_DURATION, 'duration', 3, 3, $duration_v);
-            $fct      = new XoopsFormHidden('fct', 'updspeech');
-            $sid      = new XoopsFormHidden('sid', $sid);
-            $slides1  = new XoopsFormFile(_AM_MYCONFERENCE_SLIDES1, 'slides1', 2048000);
-            $slides2  = new XoopsFormFile(_AM_MYCONFERENCE_SLIDES2, 'slides2', 2048000);
-            $slides3  = new XoopsFormFile(_AM_MYCONFERENCE_SLIDES3, 'slides3', 2048000);
-            $slides4  = new XoopsFormFile(_AM_MYCONFERENCE_SLIDES4, 'slides4', 2048000);
-            $summary  = new XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
+            $duration = new \XoopsFormText(_AM_MYCONFERENCE_DURATION, 'duration', 3, 3, $duration_v);
+            $fct      = new \XoopsFormHidden('fct', 'updspeech');
+            $sid      = new \XoopsFormHidden('sid', $sid);
+            $slides1  = new \XoopsFormFile(_AM_MYCONFERENCE_SLIDES1, 'slides1', 2048000);
+            $slides2  = new \XoopsFormFile(_AM_MYCONFERENCE_SLIDES2, 'slides2', 2048000);
+            $slides3  = new \XoopsFormFile(_AM_MYCONFERENCE_SLIDES3, 'slides3', 2048000);
+            $slides4  = new \XoopsFormFile(_AM_MYCONFERENCE_SLIDES4, 'slides4', 2048000);
+            $summary  = new \XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
             $summary->setValue($summary_v);
-            $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_UPDATE, 'submit');
+            $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_UPDATE, 'submit');
 
-            $form = new XoopsThemeForm(_AM_MYCONFERENCE_UPDSPEECH, 'editspeechform', 'speeches.php');
+            $form = new \XoopsThemeForm(_AM_MYCONFERENCE_UPDSPEECH, 'editspeechform', 'speeches.php');
             $form->setExtra('enctype="multipart/form-data"');
             $form->addElement($title, true);
             $form->addElement($stime);
@@ -221,17 +221,17 @@ switch ($fct) {
 
         // Get available speeches for the Update/Delete form
         $result = $xoopsDB->query('SELECT sid, title FROM ' . $xoopsDB->prefix('myconference_speeches') . ' ORDER BY Title ASC');// or $eh::show('0013');
-        $speech_select = new XoopsFormSelect(_AM_MYCONFERENCE_TITLE, 'sid');
-        while (list($sid, $title) = $xoopsDB->fetchRow($result)) {
+        $speech_select = new \XoopsFormSelect(_AM_MYCONFERENCE_TITLE, 'sid');
+        while (false !== (list($sid, $title) = $xoopsDB->fetchRow($result))) {
             $speech_select->addOption($sid, $title);
         }
-        $action_select = new XoopsFormSelect(_AM_MYCONFERENCE_ACTION, 'action');
+        $action_select = new \XoopsFormSelect(_AM_MYCONFERENCE_ACTION, 'action');
         $action_select->addOption('upd', _AM_MYCONFERENCE_EDIT);
         $action_select->addOption('del', _AM_MYCONFERENCE_DELE);
-        $fct           = new XoopsFormHidden('fct', 'editspeech');
-        $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_SUBMIT, 'submit');
+        $fct           = new \XoopsFormHidden('fct', 'editspeech');
+        $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_SUBMIT, 'submit');
 
-        $editform = new XoopsThemeForm(_AM_MYCONFERENCE_EDITSPEECH, 'editspeechform', 'speeches.php');
+        $editform = new \XoopsThemeForm(_AM_MYCONFERENCE_EDITSPEECH, 'editspeechform', 'speeches.php');
         $editform->setExtra('enctype="multipart/form-data"');
         $editform->addElement($fct);
         $editform->addElement($speech_select);
@@ -243,40 +243,40 @@ switch ($fct) {
         $cid_v = '';
         // Get the available Speakers
         $result = $xoopsDB->query('SELECT speakerid, name FROM ' . $xoopsDB->prefix('myconference_speakers') . ' ORDER BY Name ASC');// or $eh::show('0013');
-        $speakerSelect = new XoopsFormSelect(_AM_MYCONFERENCE_SPEAKERSNAME, 'speakerid');
+        $speakerSelect = new \XoopsFormSelect(_AM_MYCONFERENCE_SPEAKERSNAME, 'speakerid');
         $speakerSelect->addOption(0, _AM_MYCONFERENCE_NONE);
-        while (list($speakerid, $name) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($speakerid, $name) = $xoopsDB->fetchRow($result))) {
             $speakerSelect->addOption($speakerid, $name);
         }
 
         // Get the available congress
         $result = $xoopsDB->query('SELECT cid, title FROM ' . $xoopsDB->prefix('myconference_main') . ' ORDER BY Title ASC');// or $eh::show('0013');
-        $cid_select = new XoopsFormSelect(_AM_MYCONFERENCE_CONFERENCESTITLE, 'cid', $cid_v);
+        $cid_select = new \XoopsFormSelect(_AM_MYCONFERENCE_CONFERENCESTITLE, 'cid', $cid_v);
         $cid_select->addOption(0, _AM_MYCONFERENCE_NONE);
-        while (list($cid, $title) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($cid, $title) = $xoopsDB->fetchRow($result))) {
             $cid_select->addOption($cid, $title);
         }
 
         // Get the available tracks
         $result = $xoopsDB->query('SELECT tid, title FROM ' . $xoopsDB->prefix('myconference_tracks') . ' ORDER BY Title ASC');// or $eh::show('0013');
-        $trk_select = new XoopsFormSelect(_AM_MYCONFERENCE_TRACKSTITLE, 'tid', 0);
+        $trk_select = new \XoopsFormSelect(_AM_MYCONFERENCE_TRACKSTITLE, 'tid', 0);
         $trk_select->addOption(0, _AM_MYCONFERENCE_NONE);
-        while (list($tid, $title) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($tid, $title) = $xoopsDB->fetchRow($result))) {
             $trk_select->addOption($tid, $title);
         }
 
-        $title         = new XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 100);
+        $title         = new \XoopsFormText(_AM_MYCONFERENCE_TITLE, 'title', 50, 100);
         $stime         = XoopsFormDateTimeI(_AM_MYCONFERENCE_STIME, 'stime', 10, 0, 30);
-        $duration      = new XoopsFormText(_AM_MYCONFERENCE_DURATION, 'duration', 3, 3);
-        $fct           = new XoopsFormHidden('fct', 'addspeech');
-        $slides1       = new XoopsFormFile(_AM_MYCONFERENCE_SLIDES1, 'slides1', 2048000);
-        $slides2       = new XoopsFormFile(_AM_MYCONFERENCE_SLIDES2, 'slides2', 2048000);
-        $slides3       = new XoopsFormFile(_AM_MYCONFERENCE_SLIDES3, 'slides3', 2048000);
-        $slides4       = new XoopsFormFile(_AM_MYCONFERENCE_SLIDES4, 'slides4', 2048000);
-        $summary       = new XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
-        $submit_button = new XoopsFormButton('', 'submit', _AM_MYCONFERENCE_UPDATE, 'submit');
+        $duration      = new \XoopsFormText(_AM_MYCONFERENCE_DURATION, 'duration', 3, 3);
+        $fct           = new \XoopsFormHidden('fct', 'addspeech');
+        $slides1       = new \XoopsFormFile(_AM_MYCONFERENCE_SLIDES1, 'slides1', 2048000);
+        $slides2       = new \XoopsFormFile(_AM_MYCONFERENCE_SLIDES2, 'slides2', 2048000);
+        $slides3       = new \XoopsFormFile(_AM_MYCONFERENCE_SLIDES3, 'slides3', 2048000);
+        $slides4       = new \XoopsFormFile(_AM_MYCONFERENCE_SLIDES4, 'slides4', 2048000);
+        $summary       = new \XoopsFormTextArea(_AM_MYCONFERENCE_SUMMARY, 'summary', '', 25, 100);
+        $submit_button = new \XoopsFormButton('', 'submit', _AM_MYCONFERENCE_UPDATE, 'submit');
 
-        $form = new XoopsThemeForm(_AM_MYCONFERENCE_ADDSPEECH, 'addspeechform', 'speeches.php');
+        $form = new \XoopsThemeForm(_AM_MYCONFERENCE_ADDSPEECH, 'addspeechform', 'speeches.php');
         $form->setExtra('enctype="multipart/form-data"');
         $form->addElement($title, true);
         $form->addElement($speakerSelect, true);

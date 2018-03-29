@@ -19,7 +19,7 @@
 // ------------------------------------------------------------------------- //
 
 include dirname(dirname(__DIR__)) . '/mainfile.php';
-include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
-include_once XOOPS_ROOT_PATH . '/kernel/module.php';
-include_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
-include_once __DIR__ . '/class/Utility.php';
+require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+require_once XOOPS_ROOT_PATH . '/kernel/module.php';
+require_once XOOPS_ROOT_PATH . '/class/module.errorhandler.php';
+require_once __DIR__ . '/class/Utility.php';
