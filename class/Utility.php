@@ -86,7 +86,7 @@ class Utility
     /**
      * @param $filename
      *
-     * @return bool
+     * @return void
      */
     public static function createThumbs($filename)
     {/*
@@ -218,7 +218,6 @@ class Utility
         return strtr($string, $trans_tbl);
     }
 
-
     /**
      * Create download by letter choice bar/menu
      * updated starting from this idea https://xoops.org/modules/news/article.php?storyid=6497
@@ -227,8 +226,8 @@ class Utility
      * @param                  $activeObject
      * @param                  $criteria
      * @param                  $name
-     * @param                  $file
-     * @param                  $file2
+     * @param                  $link
+     * @param null             $link2
      * @return string html
      *
      * @access  public

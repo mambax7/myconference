@@ -41,15 +41,15 @@ if ($helper->getConfig('displaySampleButton')) {
 
 //------------- End Test Data ----------------------------
 
-/** @var WflinksUtility $utilityClass */
-$utilityClass = ucfirst($moduleDirName) . 'Utility';
-if (!class_exists($utilityClass)) {
+/** @var WflinksUtility $utility */
+$utility = ucfirst($moduleDirName) . 'Utility';
+if (!class_exists($utility)) {
     xoops_load('utility', $moduleDirName);
 }
 
 $configurator = include __DIR__ . '/../include/config.php';
 foreach (array_keys($configurator->uploadFolders) as $i) {
-    $utilityClass::createFolder($configurator->uploadFolders[$i]);
+    $utility::createFolder($configurator->uploadFolders[$i]);
 }
 
 $adminObject->displayNavigation(basename(__FILE__));

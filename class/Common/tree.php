@@ -67,7 +67,7 @@ class WfdownloadsObjectTree extends XoopsObjectTree
      * @param integer $key            ID of the object to display as the root of select options
      *
      * @param string  $extra
-     * @return array $optionsArray   Associative array of value->name pairs, useful for <a href='psi_element://XoopsFormSelect'>XoopsFormSelect</a>->addOptionArray method
+     * @return string $optionsArray   Associative array of value->name pairs, useful for <a href='psi_element://XoopsFormSelect'>XoopsFormSelect</a>->addOptionArray method
      *                                addOptionArray method
      */
 
