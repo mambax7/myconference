@@ -21,7 +21,7 @@
 use Xmf\Request;
 
 include __DIR__ . '/header.php';
-$xoopsOption['template_main'] = 'myconference_speaker.tpl';
+$GLOBALS['xoopsOption']['template_main'] = 'myconference_speaker.tpl';
 include XOOPS_ROOT_PATH . '/header.php';
 //$eh   = new ErrorHandler;
 $myts = \MyTextSanitizer::getInstance();
